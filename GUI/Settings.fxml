@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.ColorPicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.paint.RadialGradient?>
+<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="408.0" prefWidth="306.0" style="-fx-background-color: BLACK;" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Label layoutX="59.0" layoutY="26.0" prefHeight="32.0" prefWidth="226.0" style="-fx-border-color: RED;" text="CHAIN REACTION PREFERENCES">
+         <font>
+            <Font size="14.0" />
+         </font>
+         <textFill>
+            <RadialGradient centerX="0.5" centerY="0.5" radius="0.5">
+               <stops>
+                  <Stop color="#ff0404" />
+                  <Stop color="#e43e3e" offset="1.0" />
+               </stops>
+            </RadialGradient>
+         </textFill>
+      </Label>
+      <ImageView fitHeight="35.0" fitWidth="32.0" layoutX="19.0" layoutY="26.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../../Desktop/chainreaction.png" />
+         </image>
+      </ImageView>
+      <Separator layoutX="22.0" layoutY="72.0" prefHeight="7.0" prefWidth="270.0" style="-fx-background-color: Blue;" />
+      <Separator layoutX="19.0" layoutY="103.0" orientation="VERTICAL" prefHeight="296.0" prefWidth="5.0" />
+      <ColorPicker layoutX="146.0" layoutY="98.0" prefHeight="32.0" prefWidth="139.0" promptText="Choose color" />
+      <Label layoutX="51.0" layoutY="104.0" text="Player 1" textFill="WHITE">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Label layoutX="51.0" layoutY="334.0" text="Player 7" textFill="WHITE">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Label layoutX="51.0" layoutY="297.0" text="Player 6" textFill="WHITE">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Label layoutX="51.0" layoutY="260.0" text="Player 5" textFill="WHITE">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Label layoutX="51.0" layoutY="371.0" text="Player 8" textFill="WHITE">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Label layoutX="51.0" layoutY="145.0" text="Player 2" textFill="WHITE">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Label layoutX="51.0" layoutY="185.0" text="Player 3" textFill="WHITE">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Label layoutX="51.0" layoutY="222.0" text="Player 4" textFill="WHITE">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <ColorPicker layoutX="146.0" layoutY="142.0" />
+      <ColorPicker layoutX="146.0" layoutY="181.0" />
+      <ColorPicker layoutX="146.0" layoutY="218.0" />
+      <ColorPicker layoutX="146.0" layoutY="256.0" />
+      <ColorPicker layoutX="146.0" layoutY="293.0" />
+      <ColorPicker layoutX="146.0" layoutY="330.0" />
+      <ColorPicker layoutX="146.0" layoutY="367.0" />
+   </children>
+</AnchorPane>
