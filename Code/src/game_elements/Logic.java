@@ -33,7 +33,7 @@ public class Logic {
 			System.out.println("Enter player " +  (i + 1) + "'s name and color");
 			name = sc.next();
 			color = sc.next();
-			players.add(new Player(name , color));
+			//players.add(new Player(name , color));
 			
 		}
 		

@@ -67,7 +67,10 @@ public class Grid96 extends Application {
 			starty += 50;
 			startx = 50;
 		}
-		
+		for(int i=0;i<rows;i++) {
+			for(int j=0;j<col;j++) {
+		array[i][j].findNeighbours(array);
+			}}
 		// Remove once settings is integrated
 		/*String name;
 		for (int i = 0; i < noOfPlayers; i++) {
@@ -106,8 +109,75 @@ public class Grid96 extends Application {
 	}
 
 	public static void explode(Player p, Cell c, ArrayList<Player> list) {
-
-		if (c.getOwner() != null && !c.getOwner().equals(p)) {
+		if(c.owner.equals(p)) {
+			c.owner=null;
+			c.orbNumber=0;
+			c.rot.stop();
+			c.branch.getChildren().add(c.balls.get(c.criticalMass-1));
+			c.branch.setRotate(0);
+			for(int i=0;i<4;i++) {
+				c.balls.get(i).setTranslateX(0);
+				c.balls.get(i).setTranslateY(0);
+			}
+			TranslateTransition t1 = new TranslateTransition(Duration.seconds(0.4), c.balls.get(0));
+			t1.setFromX(0);
+			t1.setToX(50);
+			t1.setOnFinished(new EventHandler<ActionEvent>() {
+				public void handle(ActionEvent event) {
+					c.reset();
+					c.createballs();
+					makeMove (array[c.x+1][c.y],p,list);
+				}
+			});
+			TranslateTransition t2 = new TranslateTransition(Duration.seconds(0.4), c.balls.get(1));
+			t2.setFromY(0);
+			t2.setToY(50);
+			t2.setOnFinished(new EventHandler<ActionEvent>() {
+				public void handle(ActionEvent event) {
+					makeMove (array[c.x][c.y+1],p,list);
+				}
+			});
+			TranslateTransition t3 = new TranslateTransition(Duration.seconds(0.4), c.balls.get(2));
+			t3.setFromX(0);
+			t3.setToX(-50);
+			t3.setOnFinished(new EventHandler<ActionEvent>() {
+				public void handle(ActionEvent event) {
+					makeMove (array[c.x-1][c.y],p,list);
+				}
+			});
+			TranslateTransition t4 = new TranslateTransition(Duration.seconds(0.4), c.balls.get(3));
+			t4.setFromY(0);
+			t4.setToY(-50);
+			t4.setOnFinished(new EventHandler<ActionEvent>() {
+				public void handle(ActionEvent event) {
+					makeMove (array[c.x][c.y-1],p,list);
+				}
+			});
+			for(int i=0;i<c.neighbours.size();i++) {
+				if(c.neighbours.get(i).x>c.x) {
+					t1.play();
+				}
+				else if(c.neighbours.get(i).x<c.x) {
+					t3.play();
+				}
+				else if(c.neighbours.get(i).y>c.y) {
+					t2.play();
+				}
+				else if(c.neighbours.get(i).y<c.y) {
+					t4.play();
+				}
+			}
+			
+			
+			///////// SEE THIS VVVIMP
+			/*for (int i = 0; i < c.criticalMass; i++) {
+				t.get(i).play();
+			}*/
+		}
+		
+		//System.out.println("vgvg");
+		/*if (c.getOwner() != null) {
+			System.out.println("vgvg");
 			int j = 0;
 			while (j < list.size()) {
 				if (list.get(j).equals(c.getOwner())) {
@@ -116,10 +186,7 @@ public class Grid96 extends Application {
 				}
 				j++;
 			}
-			if(c.rot.equals(null)) {
-				System.out.println("yoyoyoy");
-			}
-			//c.rot=null
+			c.rot.stop();
 			c.branch.setRotate(0);
 			Material kMaterial = new PhongMaterial();
 			TranslateTransition t1 = new TranslateTransition(Duration.seconds(0.5), c.balls.get(0));
@@ -133,6 +200,7 @@ public class Grid96 extends Application {
 			t.add(t4);
 
 			for (int i = 0; i < c.neighbours.size(); i++) {
+				//System.out.println(c.neighbours.get(0).orbNumber);
 				if (c.neighbours.get(i).x > c.x) {
 					t.get(i).setFromX(c.branch.getLayoutX());
 					t.get(i).setToX(c.branch.getLayoutX() + 50);
@@ -162,55 +230,13 @@ public class Grid96 extends Application {
 			for (int i = 0; i <= c.criticalMass; i++) {
 				t.get(i).play();
 			}
-		}
-		{
-			c.rot=null;
-			c.branch.setRotate(0);
-			Material kMaterial = new PhongMaterial();
-			TranslateTransition t1 = new TranslateTransition(Duration.seconds(0.5), c.balls.get(0));
-			TranslateTransition t2 = new TranslateTransition(Duration.seconds(0.5), c.balls.get(1));
-			TranslateTransition t3 = new TranslateTransition(Duration.seconds(0.5), c.balls.get(2));
-			TranslateTransition t4 = new TranslateTransition(Duration.seconds(0.5), c.balls.get(3));
-			ArrayList<TranslateTransition> t = new ArrayList<TranslateTransition>();
-			t.add(t1);
-			t.add(t2);
-			t.add(t3);
-			t.add(t4);
-			for (int i = 0; i < c.neighbours.size(); i++) {
-				if (c.neighbours.get(i).x > c.x) {
-					t.get(i).setFromX(c.branch.getLayoutX());
-					t.get(i).setToX(c.branch.getLayoutX() + 50);
-					Integer I=new Integer(i);
-					t.get(i).setOnFinished(new EventHandler<ActionEvent>() {
-						public void handle(ActionEvent event) {
-							c.branch.getChildren().remove(c.balls.get(I));
-							makeMove (c.neighbours.get(I), p,list);
-						}
-					});
-				} else if (c.neighbours.get(i).x < c.x) {
-					t.get(i).setFromX(c.branch.getLayoutX());
-					t.get(i).setToX(c.branch.getLayoutX() - 50);
-				} else if (c.neighbours.get(i).y < c.y) {
-					t.get(i).setFromY(c.branch.getLayoutY());
-					t.get(i).setToY(c.branch.getLayoutY() - 50);
-				} else if (c.neighbours.get(i).y > c.y) {
-					t.get(i).setFromY(c.branch.getLayoutY());
-					t.get(i).setToY(c.branch.getLayoutY() + 50);
-				}
-			}
-			c.branch.getChildren().add(c.balls.get(c.criticalMass - 1));
-			///////// SEE THIS VVVIMP
-			for (int i = 0; i <= c.criticalMass; i++) {
-				t.get(i).play();
-			}
-		}
-
+		}*/
 	}
 	public static void makeMove (Cell c, Player p, ArrayList<Player> list){
 		int x=c.x;
 		int y=c.y;
-		System.out.println(x+" "+y);
-		if(array[x][y].getorbs() < array[x][y].criticalMass - 1){
+		//System.out.println(x+" "+y);
+		if(array[x][y].getorbs() < array[x][y].criticalMass-1){
 		if(array[x][y].getorbs() == 0){
 		array[x][y].setOwner(p);
 		p.addCell();
@@ -220,9 +246,7 @@ public class Grid96 extends Application {
 
 		}
 		else{
-		array[x][y].orbNumber = 0;
 		p.subCell();
-		array[x][y].setOwner(null);
 		explode(p,c,list);
 		}
 		}
