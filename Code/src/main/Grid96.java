@@ -28,11 +28,32 @@ public class Grid96 extends Application {
 	static int rows = 9, col = 6;
 	static float cell_small = 50, cell_big = 54;
 	int xc, yc;
+	int noOfPlayers = 0;
 	int turncounter=0;
 	static ArrayList<Player> players ;
 	static Player current;
 	//int currentx;
 	//int currenty;
+
+	Grid96(){
+		Main ob = new Main();
+		this.noOfPlayers = Main.noOfPlayers.charAt(0);
+		for(int i = 0 ;i < this.noOfPlayers ; i ++){
+			Player p = new Player("Player " + i , SettingPage.playerColor.get(i));
+			players.add(p);
+		}
+		size = Main.gridSize;
+		if(size.equalsIgnoreCase("9 * 6")){
+			rows = 9;
+			col = 6;
+		}
+		else{
+			rows = 16;
+			col = 10;
+		}
+		
+	}
+
 	public static void cgc(Rectangle[][] vis, Player p) {
 		for(int i=0;i<rows;i++) {
 			for(int j=0;j<col;j++) {
