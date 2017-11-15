@@ -11,7 +11,7 @@
 <?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="470.0" prefWidth="385.0" style="-fx-background-color: BLACK;" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.SettingsController">
+<AnchorPane prefHeight="470.0" prefWidth="385.0" style="-fx-background-color: BLACK;" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.SettingPage">
    <children>
       <Label layoutX="103.0" layoutY="26.0" prefHeight="32.0" prefWidth="226.0" style="-fx-border-color: RED;" text="CHAIN REACTION PREFERENCES">
          <font>
@@ -33,7 +33,7 @@
       </ImageView>
       <Separator layoutX="22.0" layoutY="72.0" prefHeight="7.0" prefWidth="340.0" style="-fx-background-color: Blue;" />
       <Separator layoutX="19.0" layoutY="103.0" orientation="VERTICAL" prefHeight="321.0" prefWidth="7.0" />
-      <ColorPicker layoutX="146.0" layoutY="98.0" prefHeight="32.0" prefWidth="139.0" promptText="Choose color" />
+      <ColorPicker fx:id="cp1" layoutX="146.0" layoutY="98.0" onAction="#handlecolorPicker1" prefHeight="32.0" prefWidth="139.0" promptText="Choose color" />
       <Label layoutX="51.0" layoutY="107.0" text="Player 1" textFill="WHITE">
          <font>
             <Font size="16.0" />
@@ -74,13 +74,13 @@
             <Font size="16.0" />
          </font>
       </Label>
-      <ColorPicker layoutX="146.0" layoutY="144.0" />
-      <ColorPicker layoutX="146.0" layoutY="185.0" />
-      <ColorPicker layoutX="146.0" layoutY="226.0" />
-      <ColorPicker layoutX="146.0" layoutY="265.0" />
-      <ColorPicker layoutX="146.0" layoutY="303.0" />
-      <ColorPicker layoutX="146.0" layoutY="342.0" />
-      <ColorPicker layoutX="146.0" layoutY="380.0" />
+      <ColorPicker fx:id="cp2" layoutX="146.0" layoutY="144.0" onAction="#handlecolorPicker2" />
+      <ColorPicker fx:id="cp3" layoutX="146.0" layoutY="185.0" onAction="#handlecolorPicker3" />
+      <ColorPicker fx:id="cp4" layoutX="146.0" layoutY="226.0" onAction="#handlecolorPicker4" />
+      <ColorPicker fx:id="cp5" layoutX="146.0" layoutY="265.0" onAction="#handlecolorPicker5" />
+      <ColorPicker fx:id="cp6" layoutX="146.0" layoutY="303.0" onAction="#handlecolorPicker6" />
+      <ColorPicker fx:id="cp7" layoutX="146.0" layoutY="342.0" onAction="#handlecolorPicker7" />
+      <ColorPicker fx:id="cp8" layoutX="146.0" layoutY="380.0" onAction="#handlecolorPicker8" />
       <Button fx:id="b2" layoutX="169.0" layoutY="424.0" mnemonicParsing="false" onAction="#handleButtonAction" style="-fx-background-color: LIGHTBLUE;" text="Home " />
    </children>
 </AnchorPane>
