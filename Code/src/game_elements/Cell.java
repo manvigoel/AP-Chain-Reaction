@@ -147,7 +147,16 @@ public class Cell{
 		r.setMaterial(kMaterial);
 		this.orbNumber+= 1;
 	}
-	
+	public void switcho(Player n) {
+		this.owner.subCell();
+		this.owner=n;
+		this.owner.addCell();
+		Material kMaterial = new PhongMaterial();
+		((PhongMaterial) kMaterial).setDiffuseColor(owner.color);
+		for(int i=0;i<4;i++) {
+			balls.get(i).setMaterial(kMaterial);
+		}
+	}
 	
 	public int getorbs(){
 		return this.orbNumber;
