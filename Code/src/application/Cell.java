@@ -24,7 +24,7 @@ public class Cell{
 	public Timeline rot=new Timeline();;
 	public ArrayList <Sphere> balls = new ArrayList<Sphere>();
 	public ArrayList <Cell> neighbours = new ArrayList<Cell>();
-	public static Sphere r1,r2,r3,r4;
+	public Sphere r1,r2,r3,r4;
 	public void createballs() {
 		balls.clear();
 		
@@ -34,11 +34,11 @@ public class Cell{
 		
 		r1=new Sphere(10);
 		r2=new Sphere(10);
-		r2.setTranslateX(-1*(ran.nextInt(High-Low) + Low));
-		r2.setTranslateY((ran.nextInt(High-Low) + Low));
+		r2.setTranslateX(0);
+		r2.setTranslateY(0);
 		r3=new Sphere(10);
-		r3.setTranslateX(ran.nextInt(High-Low) + Low);
-		r3.setTranslateY(ran.nextInt(High-Low) + Low);
+		r3.setTranslateX(0);
+		r3.setTranslateY(0);
 		r4=new Sphere(10);
 		if(x+1<cols) {
 			balls.add(r2);
@@ -74,15 +74,12 @@ public class Cell{
 	public void reset() {
 		orbNumber=0;
 		this.branch.getChildren().clear();
-		Random ran = new Random(System.currentTimeMillis());
-		int Low = 5;
-		int High = 10;
 		r1.setTranslateX(0);
 		r1.setTranslateY(0);
-		r2.setTranslateX(-1*(ran.nextInt(High-Low) + Low));
-		r2.setTranslateY((ran.nextInt(High-Low) + Low));
-		r3.setTranslateX(ran.nextInt(High-Low) + Low);
-		r3.setTranslateY(ran.nextInt(High-Low) + Low);
+		r2.setTranslateX(0);
+		r2.setTranslateY(0);
+		r3.setTranslateX(0);
+		r3.setTranslateY(0);
 		r4.setTranslateX(0);
 		r4.setTranslateY(0);
 		rot.playFromStart();
@@ -169,12 +166,19 @@ public class Cell{
 	}
 	
 	public void addOrb(){
+		int Low = 5;
+		int High = 10;
+		Random ran = new Random(System.currentTimeMillis());
+		balls.get(orbNumber).setLayoutX((ran.nextInt(High-Low) + Low));
+		balls.get(orbNumber).setLayoutY((ran.nextInt(High-Low) + Low));
 		if(orbNumber==0) {
 			Material kMaterial = new PhongMaterial();
 			((PhongMaterial) kMaterial).setDiffuseColor(owner.color);
 			for(int i=0;i<balls.size();i++) {
 				balls.get(i).setMaterial(kMaterial);
 			}
+			balls.get(orbNumber).setLayoutX(0);
+			balls.get(orbNumber).setLayoutY(0);
 		}
 		branch.getChildren().add(balls.get(orbNumber));
 		Material kMaterial = new PhongMaterial();

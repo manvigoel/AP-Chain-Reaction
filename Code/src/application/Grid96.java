@@ -142,9 +142,10 @@ public class Grid96 extends Application {
 			t1.setToX(50);
 			t1.setOnFinished(new EventHandler<ActionEvent>() {
 				public void handle(ActionEvent event) {
-					//c.reset();
+					c.reset();
 					//System.out.println("called");
-					//c.createballs();
+					c.createballs();
+					if(c.y+1<c.rows);
 					makeMove (array[c.x][c.y+1],p,list);
 				}
 			});
@@ -153,7 +154,9 @@ public class Grid96 extends Application {
 			t2.setToY(50);
 			t2.setOnFinished(new EventHandler<ActionEvent>() {
 				public void handle(ActionEvent event) {
+					if(c.x+1<c.cols) {
 					makeMove (array[c.x+1][c.y],p,list);
+					}
 				}
 			});
 			TranslateTransition t3 = new TranslateTransition(Duration.seconds(0.4), c.r3);
@@ -161,7 +164,9 @@ public class Grid96 extends Application {
 			t3.setToX(-50);
 			t3.setOnFinished(new EventHandler<ActionEvent>() {
 				public void handle(ActionEvent event) {
+					if(c.y-1>-1) {
 					makeMove (array[c.x][c.y-1],p,list);
+					}
 				}
 			});
 			TranslateTransition t4 = new TranslateTransition(Duration.seconds(0.4), c.r4);
@@ -169,7 +174,9 @@ public class Grid96 extends Application {
 			t4.setToY(-50);
 			t4.setOnFinished(new EventHandler<ActionEvent>() {
 				public void handle(ActionEvent event) {
+					if(c.x-1>-1) {
 					makeMove (array[c.x-1][c.y],p,list);
+					}
 				}
 			});
 			System.out.println("start");
@@ -180,7 +187,6 @@ public class Grid96 extends Application {
 			t2.play();
 			t3.play();
 			t4.play();
-			
 			
 	}
 	public static void makeMove (Cell c, Player p, ArrayList<Player> list){
