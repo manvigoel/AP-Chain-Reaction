@@ -96,10 +96,32 @@ public class Grid96 extends Application {
 				vis[i][j].setLayoutX(startx);
 				vis[i][j].setLayoutY(starty);
 				vis[i][j].addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {
+					if(current.getCells()!=0 || turncounter<3) {
+					//System.out.println(players.size());
+					//System.out.println(current.name+" has no of cells= "+current.getCells());
 					if(array[I][J].owner==null || array[I][J].owner==current) {
 						System.out.println(array[I][J].x+" "+array[I][J].y);
+						turncounter++;
 					makeMove (array[I][J], current, players);
+					players.add(current);
+					if(turncounter>2) {
+						for(int k=0;k<players.size();k++) {
+							if(players.get(k).noOfCells==0) {
+								players.remove(k);
+							}
+						}
+						}
+					if(players.size()==1) {
+						System.out.println(players.get(0).name+" wins");
+						System.exit(0);
+					}
+					current=players.get(0);
+					players.remove(0);
 					cgc(vis,current);
+					}
+					}
+					else if(current.getCells()==0 && turncounter>2){
+						current=players.get(0);
 					}
 				});
 				//System.out.print(array[i][j].criticalMass+" ");
@@ -208,11 +230,7 @@ public class Grid96 extends Application {
 		p.subCell();
 		explode(p,c,list);
 		}
-		players.add(current);
-		//System.out.println(players.size());
-		//System.out.println(current.name+" has no of cells= "+current.getCells());
-		current=players.get(0);
-		players.remove(0);
+		
 		}
 	public static void main(String[] args) {
 		launch(args);

@@ -15,6 +15,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Sphere;
 
 public class Cell{
+	int oe=1;
 	public int x ;
 	public int y ;
 	public int criticalMass;
@@ -166,11 +167,18 @@ public class Cell{
 	}
 	
 	public void addOrb(){
+		oe++;
 		int Low = 5;
 		int High = 10;
 		Random ran = new Random(System.currentTimeMillis());
-		balls.get(orbNumber).setLayoutX((ran.nextInt(High-Low) + Low));
-		balls.get(orbNumber).setLayoutY((ran.nextInt(High-Low) + Low));
+		if(oe%2==0) {
+			//balls.get(orbNumber).setLayoutX((ran.nextInt(High-Low) + Low));
+			balls.get(orbNumber).setLayoutX(8);
+		}
+		else {
+		//balls.get(orbNumber).setLayoutY((ran.nextInt(High-Low) + Low));
+			balls.get(orbNumber).setLayoutY(8);
+		}
 		if(orbNumber==0) {
 			Material kMaterial = new PhongMaterial();
 			((PhongMaterial) kMaterial).setDiffuseColor(owner.color);
