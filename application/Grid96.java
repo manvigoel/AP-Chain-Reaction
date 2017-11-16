@@ -3,6 +3,7 @@ package application;
 
 
 import javafx.scene.*;
+import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
@@ -12,50 +13,55 @@ import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Sphere;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-// import application.Cell;
-// import application.Coordinate;
-// import application.Player;
+import application.Cell;
+import application.Coordinate;
+import application.Player;
 import javafx.animation.TranslateTransition;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
 public class Grid96 extends Application {
 	static Cell array[][];
 	static int rows , col;
-	static float cell_small = 50, cell_big = 54;
+	static float cell_size = 40;
 	int xc, yc;
 	int noOfPlayers = 0;
-	String size;
+	String size = ("9 x 6");
 	int turncounter=0;
-	static ArrayList<Player> players ;
+	ArrayList<Player> players = new ArrayList<Player>();
 	static Player current;
 	//int currentx;
 	//int currenty;
 
-	public Grid96(){
+	Grid96(){
 		Main ob = new Main();
-		this.noOfPlayers = Main.noOfPlayers.charAt(0);
-		System.out.println( SettingPage.playerColor.get(0));
-//		for(int i = 0 ;i < this.noOfPlayers ; i ++){
-//			Player p = new Player("Player " + String.valueOf(i+1) , SettingPage.playerColor.get(i));
-//			players.add(p);
-//		}
+		this.noOfPlayers = Character.getNumericValue(Main.noOfPlayers.charAt(0));
+		
+		System.out.println(this.noOfPlayers);
+		for(int i = 0 ;i < this.noOfPlayers ; i ++){
+			Player p = new Player("Player " + String.valueOf(i+1) , SettingPage.playerColor.get(i));
+			players.add(p);
+			
+		}
 		size = Main.gridSize;
-		if(size.equalsIgnoreCase("9 * 6")){
+		if(size.equalsIgnoreCase("9 x 6")){
 			rows = 9;
 			col = 6;
+			cell_size = 55;
 		}
 		else{
-			rows = 16;
+			rows = 15;
 			col = 10;
+			cell_size = 45;
 		}
-		
 	}
 
 	public static void cgc(Rectangle[][] vis, Player p) {
@@ -68,16 +74,76 @@ public class Grid96 extends Application {
 	
 	public Scene makeSceneGrid()
 	{
-		current=new Player("p1",Color.RED);
-		Player other=new Player("p2",Color.BLUE);
-		players = new ArrayList<Player>();
-		players.add(other);
+		current = players.get(0);
+		Player other = players.get(1);
 		Group root = new Group();
-		Scene scene = new Scene(root, 400,550, Color.BLACK);
+		Scene scene = new Scene(root, 550, 800, Color.BLACK);
 		array = new Cell[rows + 1][col + 1];
 		int noOfPlayers = 2;
-		int startx=50;
-		int starty=50;
+		int startx = 0, starty = 0;
+		
+		if(rows == 15){
+			startx = (int) cell_size;
+			starty = (int) 100;
+			
+		}
+		else{
+			startx = (int) cell_size + 40;
+			starty = (int) 200;
+			
+		}
+			
+		Button btn1 = new Button();
+		btn1.setText("UNDO");
+		btn1.setLayoutX(80);
+		btn1.setLayoutY(40);
+		
+		
+		
+		Button btn2 = new Button();
+		btn2.setText("NEW GAME");
+		btn2.setLayoutX(200);
+		btn2.setLayoutY(40);
+		btn2.setOnAction(new EventHandler<ActionEvent>(){
+			@Override
+			public void handle(ActionEvent event){
+				Grid96 g= new Grid96();
+				Scene scene_grid= g.makeSceneGrid();
+				Main.newstage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+				Main.newstage.setScene(scene_grid);
+				Main.newstage.show();
+			
+			}
+		});
+		
+		
+		
+		
+		Button btn3 = new Button();
+		btn3.setText("MAIN MENU");
+		btn3.setLayoutX(350);
+		btn3.setLayoutY(40);
+		btn3.setOnAction(new EventHandler<ActionEvent>(){
+			@Override
+			public void handle(ActionEvent event){
+				Parent root = null ;
+				try {
+					root = FXMLLoader.load(getClass().getResource("Main.fxml"));
+				} 
+				catch (IOException e) {
+					e.printStackTrace();
+				}
+		 		Scene scene = new Scene(root);
+		 		Main.newstage.setScene(scene);
+		 		Main.newstage.show();
+			
+			}
+		});
+	
+		
+		
+		root.getChildren().addAll(btn1, btn2, btn3);
+		
 		Rectangle[][] vis=new Rectangle[rows][col];
 		for(int i=0;i<rows;i++) {
 			for(int j=0;j<col;j++) {
@@ -88,7 +154,7 @@ public class Grid96 extends Application {
 				root.getChildren().add(array[i][j].branch);
 				Integer I = new Integer(i);
 				Integer J = new Integer(j);
-				vis[i][j]=new Rectangle(50,50,Color.TRANSPARENT);
+				vis[i][j] = new Rectangle(cell_size, cell_size, Color.TRANSPARENT);
 				vis[i][j].setStroke(current.color);
 				root.getChildren().add(vis[i][j]);
 				vis[i][j].setLayoutX(startx);
@@ -106,19 +172,36 @@ public class Grid96 extends Application {
 					cgc(vis,current);
 					}
 				});
-				startx += 50;
+				startx += cell_size;
 			}
-			starty += 50;
-			startx = 50;
+			starty += cell_size;
+			if(rows == 9)
+				startx = (int) cell_size + 40;
+			else
+				startx = (int) cell_size ;
 		}
 		for(int i=0;i<rows;i++) {
 			for(int j=0;j<col;j++) {
-		array[i][j].findNeighbours(array);
-			}}
+				array[i][j].findNeighbours(array);
+			}
+		}
 		
 		return scene;
 
 	}
+	
+	public Scene returnMainMenu(){
+		Parent root = null;
+		try {
+			root = FXMLLoader.load(getClass().getResource("Main.fxml"));
+		} 
+		catch (IOException e) {
+			e.printStackTrace();
+		}
+ 		Scene scene1 = new Scene(root);
+		return scene1;
+	}
+	
 	
 	@Override
 	public void start(Stage primaryStage) throws Exception {
@@ -129,7 +212,7 @@ public class Grid96 extends Application {
 		
 	}
 
-	public static void explode(Player p, Cell c, ArrayList<Player> list) {
+	public void explode(Player p, Cell c, ArrayList<Player> list) {
 			c.owner=null;
 			c.orbNumber=0;
 			c.rot.stop();
@@ -188,7 +271,8 @@ public class Grid96 extends Application {
 				}
 			}
 	}
-	public static void makeMove (Cell c, Player p, ArrayList<Player> list){
+	public void makeMove (Cell c, Player p, ArrayList<Player> list){
+		Grid96 g = new Grid96();
 		if(!(c.owner==null || c.owner==p)) {
 			c.switcho(p);
 		}
@@ -217,7 +301,10 @@ public class Grid96 extends Application {
 			}
 		}
 		players.remove(0);
-		}
+	}
+	
+	
+	
 	public static void main(String[] args) {
 		launch(args);
 	}
