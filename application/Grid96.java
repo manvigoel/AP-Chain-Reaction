@@ -1,4 +1,6 @@
-package main;
+package application;
+
+
 
 import javafx.scene.*;
 import javafx.scene.input.MouseEvent;
@@ -13,9 +15,9 @@ import javafx.scene.shape.Sphere;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import game_elements.Cell;
-import game_elements.Coordinate;
-import game_elements.Player;
+// import application.Cell;
+// import application.Coordinate;
+// import application.Player;
 import javafx.animation.TranslateTransition;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
@@ -25,23 +27,25 @@ import javafx.util.Duration;
 
 public class Grid96 extends Application {
 	static Cell array[][];
-	static int rows = 9, col = 6;
+	static int rows , col;
 	static float cell_small = 50, cell_big = 54;
 	int xc, yc;
 	int noOfPlayers = 0;
+	String size;
 	int turncounter=0;
 	static ArrayList<Player> players ;
 	static Player current;
 	//int currentx;
 	//int currenty;
 
-	Grid96(){
+	public Grid96(){
 		Main ob = new Main();
 		this.noOfPlayers = Main.noOfPlayers.charAt(0);
-		for(int i = 0 ;i < this.noOfPlayers ; i ++){
-			Player p = new Player("Player " + i , SettingPage.playerColor.get(i));
-			players.add(p);
-		}
+		System.out.println( SettingPage.playerColor.get(0));
+//		for(int i = 0 ;i < this.noOfPlayers ; i ++){
+//			Player p = new Player("Player " + String.valueOf(i+1) , SettingPage.playerColor.get(i));
+//			players.add(p);
+//		}
 		size = Main.gridSize;
 		if(size.equalsIgnoreCase("9 * 6")){
 			rows = 9;
@@ -61,16 +65,15 @@ public class Grid96 extends Application {
 			}
 			}
 	}
-	@Override
-	public void start(Stage primaryStage) throws Exception {
+	
+	public Scene makeSceneGrid()
+	{
 		current=new Player("p1",Color.RED);
 		Player other=new Player("p2",Color.BLUE);
 		players = new ArrayList<Player>();
 		players.add(other);
 		Group root = new Group();
 		Scene scene = new Scene(root, 400,550, Color.BLACK);
-		primaryStage.setScene(scene);
-		primaryStage.show();
 		array = new Cell[rows + 1][col + 1];
 		int noOfPlayers = 2;
 		int startx=50;
@@ -112,7 +115,18 @@ public class Grid96 extends Application {
 			for(int j=0;j<col;j++) {
 		array[i][j].findNeighbours(array);
 			}}
+		
+		return scene;
 
+	}
+	
+	@Override
+	public void start(Stage primaryStage) throws Exception {
+		
+		Scene scene= makeSceneGrid();
+		primaryStage.setScene(scene);
+		primaryStage.show();
+		
 	}
 
 	public static void explode(Player p, Cell c, ArrayList<Player> list) {
