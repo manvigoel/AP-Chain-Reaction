@@ -70,62 +70,63 @@ public class SettingPage extends Application implements Initializable{
 		Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 		stage.setScene(scene);
 		stage.show();
+	
 	}
 	
 	@FXML
 	private void handlecolorPicker1(ActionEvent event) throws IOException{
 		playerColor.set(0, cp1.getValue());
-		System.out.println("player1 " + cp1.getValue());
+	//	System.out.println("player1 " + cp1.getValue());
 		
 	}
 	
 	@FXML
 	private void handlecolorPicker2(ActionEvent event) throws IOException{
-		playerColor.set(1, cp1.getValue());
-		System.out.println("player2 " + cp1.getValue());
+		playerColor.set(1, cp2.getValue());
+		//System.out.println("player2 " + cp2.getValue());
 		
 	}
 	
 	@FXML
 	private void handlecolorPicker3(ActionEvent event) throws IOException{
-		playerColor.set(2, cp1.getValue());
+		playerColor.set(2, cp3.getValue());
 		System.out.println("player3 " + cp3.getValue());
 		
 	}
 	
 	@FXML
 	private void handlecolorPicker4(ActionEvent event) throws IOException{
-		playerColor.set(3, cp1.getValue());
-		System.out.println("player4 " + cp4.getValue());
+		playerColor.set(3, cp4.getValue());
+	//	System.out.println("player4 " + cp4.getValue());
 		
 	}
 	
 	@FXML
 	private void handlecolorPicker5(ActionEvent event) throws IOException{
-		playerColor.set(4, cp1.getValue());
-		System.out.println("player5 " + cp5.getValue());
+		playerColor.set(4, cp5.getValue());
+	//	System.out.println("player5 " + cp5.getValue());
 		
 	}
 	
 	@FXML
 	private void handlecolorPicker6(ActionEvent event) throws IOException{
-		playerColor.set(5, cp1.getValue());
-		System.out.println("player6 " + cp6.getValue());
+		playerColor.set(5, cp6.getValue());
+	//	System.out.println("player6 " + cp6.getValue());
 		
 	}
 	
 	@FXML
 	private void handlecolorPicker7(ActionEvent event) throws IOException{
-		playerColor.set(6, cp1.getValue());
-		System.out.println("player7 " + cp7.getValue());
+		playerColor.set(6, cp7.getValue());
+	//	System.out.println("player7 " + cp7.getValue());
 		
 	}
 	
 	@FXML
 	private void handlecolorPicker8(ActionEvent event) throws IOException{
-		playerColor.set(7, cp1.getValue());
+		playerColor.set(7, cp8.getValue());
 		System.out.println("player8 " + cp8.getValue());
-		
+	//	
 	}
 	
 	

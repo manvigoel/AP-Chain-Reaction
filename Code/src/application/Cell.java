@@ -15,17 +15,18 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Sphere;
 
 public class Cell{
-	int oe=1;
+	int oe = 1;
 	public int x ;
 	public int y ;
 	public int criticalMass;
 	public int orbNumber;
-	public Group branch=new Group();
+	public Group branch = new Group();
 	public Player owner;
-	public Timeline rot=new Timeline();;
+	public Timeline rot = new Timeline();;
 	public ArrayList <Sphere> balls = new ArrayList<Sphere>();
 	public ArrayList <Cell> neighbours = new ArrayList<Cell>();
 	public Sphere r1,r2,r3,r4;
+	String size = ("9 x 6");
 	public void createballs() {
 		balls.clear();
 		
@@ -41,16 +42,16 @@ public class Cell{
 		r3.setTranslateX(0);
 		r3.setTranslateY(0);
 		r4=new Sphere(10);
-		if(x+1<cols) {
+		if(x+1 < cols) {
 			balls.add(r2);
 		}
-		if(x-1>-1) {
+		if(x-1 > -1) {
 			balls.add(r4);
 		}
-		if(y-1>-1) {
+		if(y-1 > -1) {
 			balls.add(r3);
 		}
-		if(y+1<rows) {
+		if(y+1 < rows) {
 			balls.add(r1);
 		}
 		/*balls.add(r1);
@@ -59,6 +60,20 @@ public class Cell{
 		balls.add(r4);*/
 	}
 	public Cell(int x, int y){
+		
+		size = Main.gridSize;
+		if(size.equalsIgnoreCase("9 x 6")){
+			rows = 6;
+			cols = 9;
+			
+		}
+		else{
+			rows = 10;
+			cols = 15;
+			
+		}
+		
+		
 		this.x = x;
 		this.y = y;
 		rot.setRate(2);
@@ -72,6 +87,7 @@ public class Cell{
 		createballs();
 		//branch.getChildren().add(r);
 	}
+	
 	public void reset() {
 		orbNumber=0;
 		this.branch.getChildren().clear();
@@ -85,7 +101,8 @@ public class Cell{
 		r4.setTranslateY(0);
 		rot.playFromStart();
 	}
-	static int rows=6,cols=9;
+	static int rows = 6, cols = 9;
+	
 	public void findCriticalMass(int x, int y){
 		if(x==0 || x==cols-1) {
 			if(y==0 || y==rows-1) {
@@ -110,17 +127,18 @@ public class Cell{
 			this.criticalMass=4;
 		}
 	}
+	
 	public void findNeighbours(Cell[][] array){
-		if(x+1<cols) {
+		if(x + 1 < cols) {
 			neighbours.add(array[this.x+1][this.y]);
 		}
-		if(x-1>-1) {
+		if(x - 1 > -1) {
 			neighbours.add(array[this.x-1][this.y]);
 		}
-		if(y-1>-1) {
+		if(y - 1 > -1) {
 			neighbours.add(array[this.x][this.y-1]);
 		}
-		if(y+1<rows) {
+		if(y + 1 < rows) {
 			neighbours.add(array[this.x][this.y+1]);
 		}
 		/*
@@ -195,6 +213,8 @@ public class Cell{
 		r.setMaterial(kMaterial);
 		this.orbNumber+= 1;
 	}
+	
+	
 	public void switcho(Player n) {
 		this.owner.subCell();
 		this.owner=n;
@@ -205,6 +225,8 @@ public class Cell{
 			balls.get(i).setMaterial(kMaterial);
 		}
 	}
+	
+	
 	
 	public int getorbs(){
 		return this.orbNumber;
