@@ -35,20 +35,21 @@ public class Grid96 extends Application {
 	int turncounter = 0;
 	ArrayList<Player> players = new ArrayList<Player>();
 	static Player current;
-	
+	static Player previous;
+	boolean acive=false;
 	//int currentx;
 	//int currenty;
 
 	Grid96(){
 		Main ob = new Main();
 		this.noOfPlayers = Character.getNumericValue(Main.noOfPlayers.charAt(0));
-		
+		/*
 		System.out.println(this.noOfPlayers);
 		for(int i = 0 ;i < this.noOfPlayers ; i ++){
 			Player p = new Player("Player " + String.valueOf(i+1) , SettingPage.playerColor.get(i));
 			players.add(p);
 			
-		}
+		}*/
 		size = Main.gridSize;
 		if(size.equalsIgnoreCase("9 x 6")){
 			rows = 9;
@@ -69,12 +70,61 @@ public class Grid96 extends Application {
 			}
 		}
 	}
-	
-	
+	public static void serialize() throws IOException {
+		ObjectOutputStream out = null;
+		try {
+			out = new ObjectOutputStream(new FileOutputStream("out.txt"));
+			for(int i=0;i<rows;i++) {
+				for(int j=0;j<col;j++) {
+					//System.out.print(array[i][j].sc.orbNumber+" ");
+					out.writeObject(array[i][j].sc);
+				}
+				//System.out.println("");
+			}
+		} finally {
+			out.close();
+		}
+	}
+	//public static Cell[][] deserialize() throws IOException,ClassNotFoundException {
+	public static void deserialize() throws IOException,ClassNotFoundException {
+			ObjectInputStream in = null;
+			Cell[][] ret=new Cell[rows][col];
+			try {
+				in = new ObjectInputStream(new FileInputStream("out.txt"));
+				for(int i=0;i<rows;i++) {
+					for(int j=0;j<col;j++) {
+						sCell rr=(sCell) in.readObject();
+						//System.out.print(rr.orbNumber+" "+rr.owner+" ");
+						array[i][j]=new Cell(rr);
+					}
+					//System.out.println("");
+				}
+			} finally {
+				in.close();
+				//System.out.println("des");
+				//return ret;
+			}
+		}
+	/*public static void deserialize() throws IOException,ClassNotFoundException {
+		ObjectInputStream in = null;
+		try {
+			in = new ObjectInputStream(new FileInputStream("out.txt"));
+			for(int i=0;i<rows;i++) {
+				for(int j=0;j<col;j++) {
+					array[i][j].sc=(sCell) in.readObject();
+				}
+			}
+		} finally {
+			in.close();
+		}
+	}*/
 	public Scene makeSceneGrid()
 	{
-		current = players.get(0);
-		Player other = players.get(1);
+		//current = players.get(0);
+		//Player other = players.get(1);
+		current=new Player("p1",Color.RED);
+		Player other=new Player("p2",Color.BLUE);
+		players.add(other);
 		Group root = new Group();
 		Scene scene = new Scene(root, 550, 800, Color.BLACK);
 		array = new Cell[rows + 1][col + 1];
@@ -96,7 +146,17 @@ public class Grid96 extends Application {
 		btn1.setText("UNDO");
 		btn1.setLayoutX(80);
 		btn1.setLayoutY(40);
-		
+		btn1.setOnAction(new EventHandler<ActionEvent>(){
+			@Override
+			public void handle(ActionEvent event){
+				Grid96 g= new Grid96();
+				Scene scene_grid= g.resumeSceneGrid();
+				Main.newstage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+				Main.newstage.setScene(scene_grid);
+				Main.newstage.show();
+			
+			}
+		});
 		
 		Button btn2 = new Button();
 		btn2.setText("NEW GAME");
@@ -144,7 +204,7 @@ public class Grid96 extends Application {
 			for(int j = 0 ; j < col ; j++) {
 				
 				array[i][j] = new Cell(i, j);
-				array[i][j].findCriticalMass(i, j);
+				//array[i][j].findCriticalMass(i, j);
 				array[i][j].branch.setLayoutX(startx + 25);
 				array[i][j].branch.setLayoutY(starty + 25);
 				
@@ -158,11 +218,19 @@ public class Grid96 extends Application {
 				vis[i][j].setLayoutX(startx);
 				vis[i][j].setLayoutY(starty);
 				vis[i][j].addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {
-					if(current.getCells() != 0 || turncounter < 3) {
 					//System.out.println(players.size());
-					//System.out.println(current.name+" has no of cells= "+current.getCells());
 						if(array[I][J].owner == null || array[I][J].owner == current) {
-							System.out.println(array[I][J].x+" "+array[I][J].y);
+							//System.out.println(array[I][J].x+" "+array[I][J].y);
+							try {
+								serialize();
+								//System.out.println("serialised");
+							} catch (IOException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
+							if(turncounter!=0) {
+								System.out.println(current.name+" has no of cells= "+previous.getCells());
+							}
 							turncounter++;
 							makeMove (array[I][J], current, players);
 							players.add(current);
@@ -177,14 +245,11 @@ public class Grid96 extends Application {
 								System.out.println(players.get(0).name+" wins");
 								System.exit(0);
 							}
+							previous=current;
 							current=players.get(0);
 							players.remove(0);
 							cgc(vis,current);
 							}
-					}
-					else if(current.getCells()==0 && turncounter>2){
-						current=players.get(0);
-					}
 				});
 				//System.out.print(array[i][j].criticalMass+" ");
 				startx += cell_size;
@@ -206,7 +271,168 @@ public class Grid96 extends Application {
 		return scene;
 
 	}
+	public Scene resumeSceneGrid()
+	{
+		//current = players.get(0);
+		//Player other = players.get(1);
+		//current=new Player("p1",Color.RED);
+		//Player other=new Player("p2",Color.BLUE);
+		//players.add(other);
+		Group root = new Group();
+		Scene scene = new Scene(root, 550, 800, Color.BLACK);
+		//array = new Cell[rows + 1][col + 1];
+		try {
+			deserialize();
+		} catch (ClassNotFoundException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		} catch (IOException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+		//int noOfPlayers = 0;
+		int startx = 0;
+		int starty = 0;
+		
+		if(rows == 15){
+			startx = (int) cell_size;
+			starty = (int) 100;
+			
+		}
+		else{
+			startx = (int) cell_size + 40;
+			starty = (int) 200;
+		}
+			
+		Button btn1 = new Button();
+		btn1.setText("UNDO");
+		btn1.setLayoutX(80);
+		btn1.setLayoutY(40);
+		btn1.setOnAction(new EventHandler<ActionEvent>(){
+			@Override
+			public void handle(ActionEvent event){
+				Grid96 g= new Grid96();
+				Scene scene_grid= g.resumeSceneGrid();
+				Main.newstage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+				Main.newstage.setScene(scene_grid);
+				Main.newstage.show();
+			
+			}
+		});
+		
+		Button btn2 = new Button();
+		btn2.setText("NEW GAME");
+		btn2.setLayoutX(200);
+		btn2.setLayoutY(40);
+		btn2.setOnAction(new EventHandler<ActionEvent>(){
+			@Override
+			public void handle(ActionEvent event){
+				Grid96 g= new Grid96();
+				Scene scene_grid= g.makeSceneGrid();
+				Main.newstage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+				Main.newstage.setScene(scene_grid);
+				Main.newstage.show();
+			
+			}
+		});
+		
+		Button btn3 = new Button();
+		btn3.setText("MAIN MENU");
+		btn3.setLayoutX(350);
+		btn3.setLayoutY(40);
+		btn3.setOnAction(new EventHandler<ActionEvent>(){
+			@Override
+			public void handle(ActionEvent event){
+				Parent root = null ;
+				try {
+					root = FXMLLoader.load(getClass().getResource("Main.fxml"));
+				} 
+				catch (IOException e) {
+					e.printStackTrace();
+				}
+		 		Scene scene = new Scene(root);
+		 		Main.newstage.setScene(scene);
+		 		Main.newstage.show();
+			
+			}
+		});
 	
+		root.getChildren().addAll(btn1, btn2, btn3);
+		
+		
+		Rectangle[][] vis = new Rectangle[rows][col];
+		for(int i = 0 ; i < rows ; i++) {
+			
+			for(int j = 0 ; j < col ; j++) {
+				
+				//array[i][j] = new Cell(i, j);
+				//array[i][j].findCriticalMass(i, j);
+				array[i][j].branch.setLayoutX(startx + 25);
+				array[i][j].branch.setLayoutY(starty + 25);
+				
+				root.getChildren().add(array[i][j].branch);
+				Integer I = new Integer(i);
+				Integer J = new Integer(j);
+				
+				vis[i][j] = new Rectangle(cell_size, cell_size, Color.TRANSPARENT);
+				vis[i][j].setStroke(current.color);
+				root.getChildren().add(vis[i][j]);
+				vis[i][j].setLayoutX(startx);
+				vis[i][j].setLayoutY(starty);
+				vis[i][j].addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {
+					//System.out.println(players.size());
+						if(array[I][J].owner == null || array[I][J].owner == current) {
+							//System.out.println(array[I][J].x+" "+array[I][J].y);
+							if(turncounter!=0) {
+								System.out.println(current.name+" has no of cells= "+previous.getCells());
+							}
+							turncounter++;
+							makeMove (array[I][J], current, players);
+							players.add(current);
+							if(turncounter>2) {
+								for(int k=0;k<players.size();k++) {
+									if(players.get(k).noOfCells==0) {
+										players.remove(k);
+									}
+								}
+							}
+							if(players.size() == 1) {
+								System.out.println(players.get(0).name+" wins");
+								System.exit(0);
+							}
+							previous=current;
+							current=players.get(0);
+							players.remove(0);
+							cgc(vis,current);
+							try {
+								serialize();
+								//System.out.println("serialised");
+							} catch (IOException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
+							}
+				});
+				//System.out.print(array[i][j].criticalMass+" ");
+				startx += cell_size;
+			}
+			//System.out.println("");
+			starty += cell_size;
+			if(rows == 9)
+				startx = (int) cell_size + 40;
+			else
+				startx = (int) cell_size ;
+			
+		}
+		for(int i=0;i<rows;i++) {
+			for(int j=0;j<col;j++) {
+				array[i][j].findNeighbours(array);
+			}
+		}
+		
+		return scene;
+
+	}
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		
@@ -276,7 +502,7 @@ public class Grid96 extends Application {
 					}
 				}
 			});
-			System.out.println("start");
+			//System.out.println("start");
 			for(int i = 0 ; i < c.neighbours.size() ; i++) {
 				System.out.println(c.neighbours.get(i).x + " " + c.neighbours.get(i).y);
 			}
@@ -288,6 +514,7 @@ public class Grid96 extends Application {
 	}
 	public static void makeMove (Cell c, Player p, ArrayList<Player> list){
 		//System.out.println("called");
+		
 		if(!(c.owner == null || c.owner == p)) {
 			c.switcho(p);
 		}
@@ -299,7 +526,7 @@ public class Grid96 extends Application {
 				array[x][y].setOwner(p);
 				p.addCell();
 			}
-			System.out.println("gcgc");
+			//System.out.println("gcgc");
 			array[x][y].addOrb();
 			array[x][y].setOwner(p);
 		}

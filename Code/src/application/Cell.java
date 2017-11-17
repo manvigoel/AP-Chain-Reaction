@@ -16,12 +16,13 @@ import javafx.scene.shape.Sphere;
 
 public class Cell{
 	int oe = 1;
-	public int x ;
-	public int y ;
-	public int criticalMass;
-	public int orbNumber;
+	public sCell sc=new sCell();
+	public int x=sc.x ;
+	public int y=sc.y ;
+	public int criticalMass=sc.criticalMass;
+	public int orbNumber=sc.orbNumber;
 	public Group branch = new Group();
-	public Player owner;
+	public Player owner=sc.owner;
 	public Timeline rot = new Timeline();;
 	public ArrayList <Sphere> balls = new ArrayList<Sphere>();
 	public ArrayList <Cell> neighbours = new ArrayList<Cell>();
@@ -75,7 +76,10 @@ public class Cell{
 		
 		
 		this.x = x;
+		this.sc.x=x;
 		this.y = y;
+		this.sc.y=y;
+		findCriticalMass(this.x,this.y);
 		rot.setRate(2);
 		rot.setCycleCount(Timeline.INDEFINITE);
 		KeyFrame startk = new KeyFrame(Duration.ZERO, new KeyValue(branch.rotateProperty(), 0));
@@ -87,7 +91,37 @@ public class Cell{
 		createballs();
 		//branch.getChildren().add(r);
 	}
-	
+public Cell(sCell sc){
+		
+		size = Main.gridSize;
+		if(size.equalsIgnoreCase("9 x 6")){
+			rows = 6;
+			cols = 9;
+			
+		}
+		else{
+			rows = 10;
+			cols = 15;
+			
+		}
+		this.x = sc.x;
+		this.y = sc.y;
+		findCriticalMass(this.x,this.y);
+		rot.setRate(2);
+		rot.setCycleCount(Timeline.INDEFINITE);
+		KeyFrame startk = new KeyFrame(Duration.ZERO, new KeyValue(branch.rotateProperty(), 0));
+		KeyFrame endk = new KeyFrame(Duration.seconds(5), new KeyValue(branch.rotateProperty(), 360));
+		rot.getKeyFrames().add(startk);
+		rot.getKeyFrames().add(endk);
+		rot.playFromStart();
+		owner=sc.owner;
+		orbNumber=0;
+		createballs();
+		for(int i=0;i<orbNumber;i++) {
+			addOrb();
+		}
+		//branch.getChildren().add(r);
+	}
 	public void reset() {
 		orbNumber=0;
 		this.branch.getChildren().clear();
@@ -107,24 +141,30 @@ public class Cell{
 		if(x==0 || x==cols-1) {
 			if(y==0 || y==rows-1) {
 				this.criticalMass=2;
+				this.sc.criticalMass=2;
 			}
 			else {
 				this.criticalMass=3;
+				this.sc.criticalMass=3;
 			}
 		}
 		else if(y==0 || y==rows-1) {
 			if(x==cols-1) {
 				this.criticalMass=2;
+				this.sc.criticalMass=2;
 			}
 			else {
 				this.criticalMass=3;
+				this.sc.criticalMass=3;
 			}
 		}
 		else if(x==cols-1 && y==rows-1) {
 			this.criticalMass=2;
+			this.sc.criticalMass=2;
 		}
 		else {
 			this.criticalMass=4;
+			this.sc.criticalMass=4;
 		}
 	}
 	
@@ -186,8 +226,6 @@ public class Cell{
 	
 	public void addOrb(){
 		oe++;
-		int Low = 5;
-		int High = 10;
 		Random ran = new Random(System.currentTimeMillis());
 		if(oe%2==0) {
 			//balls.get(orbNumber).setLayoutX((ran.nextInt(High-Low) + Low));
@@ -212,12 +250,14 @@ public class Cell{
 		Sphere r = new Sphere(10);
 		r.setMaterial(kMaterial);
 		this.orbNumber+= 1;
+		this.sc.orbNumber=this.orbNumber;
 	}
 	
 	
 	public void switcho(Player n) {
 		this.owner.subCell();
 		this.owner=n;
+		this.sc.owner=n;
 		this.owner.addCell();
 		Material kMaterial = new PhongMaterial();
 		((PhongMaterial) kMaterial).setDiffuseColor(owner.color);
@@ -234,6 +274,7 @@ public class Cell{
 	
 	public void setOwner(Player owner){
 		this.owner = owner;
+		this.sc.owner=owner;
 	}
 	
 	public Player getOwner(){
