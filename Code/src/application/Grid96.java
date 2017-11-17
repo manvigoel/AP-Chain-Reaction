@@ -94,12 +94,17 @@ public class Grid96 extends Application {
 				for(int i=0;i<rows;i++) {
 					for(int j=0;j<col;j++) {
 						sCell rr=(sCell) in.readObject();
+						//System.out.println(rr.owner);
 						//System.out.print(rr.orbNumber+" "+rr.owner+" ");
+						System.out.print(rr.orbNumber+" ");
+						array[i][j].reset();
+						array[i][j]=null;
 						array[i][j]=new Cell(rr);
 					}
-					//System.out.println("");
+					System.out.println("");
 				}
 			} finally {
+				System.out.println("");
 				in.close();
 				//System.out.println("des");
 				//return ret;
@@ -273,6 +278,8 @@ public class Grid96 extends Application {
 	}
 	public Scene resumeSceneGrid()
 	{
+		players.add(0,current);
+		current=previous;
 		//current = players.get(0);
 		//Player other = players.get(1);
 		//current=new Player("p1",Color.RED);
@@ -369,20 +376,28 @@ public class Grid96 extends Application {
 				//array[i][j].findCriticalMass(i, j);
 				array[i][j].branch.setLayoutX(startx + 25);
 				array[i][j].branch.setLayoutY(starty + 25);
-				
-				root.getChildren().add(array[i][j].branch);
+				//System.out.print(array[i][j].branch.getChildren().size()+" ");
 				Integer I = new Integer(i);
 				Integer J = new Integer(j);
-				
+				int ol=array[i][j].getorbs();
+				//System.out.print(array[i][j].getorbs()+" ");
+				array[i][j].orbNumber=0;
+				array[i][j].sc.orbNumber=0;
+				for(int a=0;a<ol;a++) {
+					array[i][j].addOrb();
+					//System.out.print(" added ");
+				}
+				System.out.print(array[i][j].getorbs()+" ");
 				vis[i][j] = new Rectangle(cell_size, cell_size, Color.TRANSPARENT);
 				vis[i][j].setStroke(current.color);
 				root.getChildren().add(vis[i][j]);
+				root.getChildren().add(array[i][j].branch);
 				vis[i][j].setLayoutX(startx);
 				vis[i][j].setLayoutY(starty);
 				vis[i][j].addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {
 					//System.out.println(players.size());
 						if(array[I][J].owner == null || array[I][J].owner == current) {
-							//System.out.println(array[I][J].x+" "+array[I][J].y);
+							System.out.println(array[I][J].x+" "+array[I][J].y);
 							if(turncounter!=0) {
 								System.out.println(current.name+" has no of cells= "+previous.getCells());
 							}
@@ -416,7 +431,7 @@ public class Grid96 extends Application {
 				//System.out.print(array[i][j].criticalMass+" ");
 				startx += cell_size;
 			}
-			//System.out.println("");
+			System.out.println("");
 			starty += cell_size;
 			if(rows == 9)
 				startx = (int) cell_size + 40;
@@ -424,6 +439,7 @@ public class Grid96 extends Application {
 				startx = (int) cell_size ;
 			
 		}
+		System.out.println("");
 		for(int i=0;i<rows;i++) {
 			for(int j=0;j<col;j++) {
 				array[i][j].findNeighbours(array);
