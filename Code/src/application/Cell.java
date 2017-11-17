@@ -93,16 +93,22 @@ public class Cell{
 	}
 public Cell(sCell sc){
 		
-		size = Main.gridSize;
-		if(size.equalsIgnoreCase("9 x 6")){
-			rows = 6;
-			cols = 9;
-			
+		if(Main.gridSize != null){
+			size = Main.gridSize;
+			if(size.equalsIgnoreCase("9 x 6")){
+				rows = 6;
+				cols = 9;
+				
+			}
+			else{
+				rows = 10;
+				cols = 15;
+				
+			}
 		}
 		else{
-			rows = 10;
-			cols = 15;
-			
+			rows = 6;
+			cols = 9;
 		}
 		this.x = sc.x;
 		this.y = sc.y;

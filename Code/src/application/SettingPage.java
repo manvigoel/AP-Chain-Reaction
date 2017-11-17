@@ -13,6 +13,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.paint.Color;
@@ -33,7 +34,6 @@ public class SettingPage extends Application implements Initializable{
 	private Button b2;
 	
 	static ArrayList<Color> playerColor = new ArrayList<Color>();
-	
 	
 	@FXML
 	private ColorPicker cp1;
@@ -56,7 +56,7 @@ public class SettingPage extends Application implements Initializable{
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		// TODO Auto-generated method stub
-		
+		totalPlayers = Character.getNumericValue(Main.noOfPlayers.charAt(0));
 		
 	}
 
@@ -76,12 +76,22 @@ public class SettingPage extends Application implements Initializable{
 	@FXML
 	private void handlecolorPicker1(ActionEvent event) throws IOException{
 		playerColor.set(0, cp1.getValue());
-	//	System.out.println("player1 " + cp1.getValue());
-		
+	
 	}
+	
+	int totalPlayers;
+	
 	
 	@FXML
 	private void handlecolorPicker2(ActionEvent event) throws IOException{
+		
+		if(cp2.getValue().equals(cp1.getValue())){
+			Alert alert = new Alert(Alert.AlertType.INFORMATION);
+			alert.setContentText("Color already taken! Choose another one");
+			alert.showAndWait();
+		}
+				
+		
 		playerColor.set(1, cp2.getValue());
 		//System.out.println("player2 " + cp2.getValue());
 		
@@ -89,6 +99,12 @@ public class SettingPage extends Application implements Initializable{
 	
 	@FXML
 	private void handlecolorPicker3(ActionEvent event) throws IOException{
+		
+		if(cp3.getValue().equals(cp1.getValue()) || cp3.getValue().equals(cp2.getValue())){
+			Alert alert = new Alert(Alert.AlertType.INFORMATION);
+			alert.setContentText("Color already taken! Choose another one");
+			alert.showAndWait();
+		}
 		playerColor.set(2, cp3.getValue());
 		System.out.println("player3 " + cp3.getValue());
 		
@@ -96,6 +112,12 @@ public class SettingPage extends Application implements Initializable{
 	
 	@FXML
 	private void handlecolorPicker4(ActionEvent event) throws IOException{
+		if(cp4.getValue().equals(cp1.getValue()) || cp4.getValue().equals(cp2.getValue()) || cp4.getValue().equals(cp3.getValue())){
+			Alert alert = new Alert(Alert.AlertType.INFORMATION);
+			alert.setContentText("Color already taken! Choose another one");
+			alert.showAndWait();
+		}
+		
 		playerColor.set(3, cp4.getValue());
 	//	System.out.println("player4 " + cp4.getValue());
 		
@@ -103,6 +125,12 @@ public class SettingPage extends Application implements Initializable{
 	
 	@FXML
 	private void handlecolorPicker5(ActionEvent event) throws IOException{
+		if(cp5.getValue().equals(cp1.getValue()) || cp5.getValue().equals(cp2.getValue()) || cp5.getValue().equals(cp3.getValue()) || cp5.getValue().equals(cp4.getValue())){
+			Alert alert = new Alert(Alert.AlertType.INFORMATION);
+			alert.setContentText("Color already taken! Choose another one");
+			alert.showAndWait();
+		}
+		
 		playerColor.set(4, cp5.getValue());
 	//	System.out.println("player5 " + cp5.getValue());
 		
@@ -110,6 +138,11 @@ public class SettingPage extends Application implements Initializable{
 	
 	@FXML
 	private void handlecolorPicker6(ActionEvent event) throws IOException{
+		if(cp6.getValue().equals(cp1.getValue()) || cp6.getValue().equals(cp2.getValue()) || cp6.getValue().equals(cp3.getValue()) || cp6.getValue().equals(cp4.getValue())  || cp6.getValue().equals(cp5.getValue()) ){
+			Alert alert = new Alert(Alert.AlertType.INFORMATION);
+			alert.setContentText("Color already taken! Choose another one");
+			alert.showAndWait();
+		}
 		playerColor.set(5, cp6.getValue());
 	//	System.out.println("player6 " + cp6.getValue());
 		
@@ -117,6 +150,11 @@ public class SettingPage extends Application implements Initializable{
 	
 	@FXML
 	private void handlecolorPicker7(ActionEvent event) throws IOException{
+		if(cp7.getValue().equals(cp1.getValue()) || cp7.getValue().equals(cp2.getValue()) || cp7.getValue().equals(cp3.getValue()) || cp7.getValue().equals(cp4.getValue())  || cp7.getValue().equals(cp5.getValue()) || cp7.getValue().equals(cp6.getValue()) ){
+			Alert alert = new Alert(Alert.AlertType.INFORMATION);
+			alert.setContentText("Color already taken! Choose another one");
+			alert.showAndWait();
+		}
 		playerColor.set(6, cp7.getValue());
 	//	System.out.println("player7 " + cp7.getValue());
 		
@@ -124,8 +162,13 @@ public class SettingPage extends Application implements Initializable{
 	
 	@FXML
 	private void handlecolorPicker8(ActionEvent event) throws IOException{
+		if(cp8.getValue().equals(cp1.getValue()) || cp8.getValue().equals(cp2.getValue()) || cp8.getValue().equals(cp3.getValue()) || cp8.getValue().equals(cp4.getValue())  || cp8.getValue().equals(cp5.getValue()) || cp8.getValue().equals(cp6.getValue()) || cp8.getValue().equals(cp7.getValue())){
+			Alert alert = new Alert(Alert.AlertType.INFORMATION);
+			alert.setContentText("Color already taken! Choose another one");
+			alert.showAndWait();
+		}
 		playerColor.set(7, cp8.getValue());
-		System.out.println("player8 " + cp8.getValue());
+	//	System.out.println("player8 " + cp8.getValue());
 	//	
 	}
 	
