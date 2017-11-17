@@ -235,8 +235,8 @@ public Cell(sCell sc){
 		}
 		if(orbNumber==0) {
 			Material kMaterial = new PhongMaterial();
-			//((PhongMaterial) kMaterial).setDiffuseColor(owner.color);
-			((PhongMaterial) kMaterial).setDiffuseColor(Color.GREEN);
+			((PhongMaterial) kMaterial).setDiffuseColor(owner.color);
+			//((PhongMaterial) kMaterial).setDiffuseColor(Color.GREEN);
 			for(int i=0;i<balls.size();i++) {
 				balls.get(i).setMaterial(kMaterial);
 			}
@@ -245,8 +245,8 @@ public Cell(sCell sc){
 		}
 		branch.getChildren().add(balls.get(orbNumber));
 		Material kMaterial = new PhongMaterial();
-		//((PhongMaterial) kMaterial).setDiffuseColor(owner.color);
-		((PhongMaterial) kMaterial).setDiffuseColor(Color.GREEN);
+		((PhongMaterial) kMaterial).setDiffuseColor(owner.color);
+		//((PhongMaterial) kMaterial).setDiffuseColor(Color.GREEN);
 		Sphere r = new Sphere(10);
 		r.setMaterial(kMaterial);
 		orbNumber++;

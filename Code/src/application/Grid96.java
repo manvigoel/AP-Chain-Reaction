@@ -27,13 +27,14 @@ import javafx.fxml.FXMLLoader;
 
 public class Grid96 extends Application {
 	static Cell array[][];
+	static int rec=0;
 	static int rows , col;
 	static float cell_size = 40;
 	int xc, yc;
 	int noOfPlayers = 0;
 	String size = ("9 x 6");
-	int turncounter = 0;
-	ArrayList<Player> players = new ArrayList<Player>();
+	static int turncounter = 0;
+	static ArrayList<Player> players = new ArrayList<Player>();
 	static Player current;
 	static Player previous;
 	boolean acive=false;
@@ -238,21 +239,25 @@ public class Grid96 extends Application {
 							}
 							turncounter++;
 							makeMove (array[I][J], current, players);
-							players.add(current);
-							if(turncounter>2) {
-								for(int k=0;k<players.size();k++) {
-									if(players.get(k).noOfCells==0) {
-										players.remove(k);
+							if(rec==0) {
+								if(rec==0) {
+									players.add(current);
+									if(turncounter>2) {
+										for(int k=0;k<players.size();k++) {
+											if(players.get(k).noOfCells==0) {
+												players.remove(k);
+											}
+										}
 									}
+									if(players.size() == 1) {
+										System.out.println(players.get(0).name+" wins");
+										System.exit(0);
+									}
+									previous=current;
+									current=players.get(0);
+									players.remove(0);
 								}
 							}
-							if(players.size() == 1) {
-								System.out.println(players.get(0).name+" wins");
-								System.exit(0);
-							}
-							previous=current;
-							current=players.get(0);
-							players.remove(0);
 							cgc(vis,current);
 							}
 				});
@@ -397,6 +402,7 @@ public class Grid96 extends Application {
 				vis[i][j].addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {
 					//System.out.println(players.size());
 						if(array[I][J].owner == null || array[I][J].owner == current) {
+							cgc(vis,current);
 							System.out.println(array[I][J].x+" "+array[I][J].y);
 							if(turncounter!=0) {
 								System.out.println(current.name+" has no of cells= "+previous.getCells());
@@ -415,10 +421,6 @@ public class Grid96 extends Application {
 								System.out.println(players.get(0).name+" wins");
 								System.exit(0);
 							}
-							previous=current;
-							current=players.get(0);
-							players.remove(0);
-							cgc(vis,current);
 							try {
 								serialize();
 								//System.out.println("serialised");
@@ -459,6 +461,7 @@ public class Grid96 extends Application {
 	}
 
 	public static void explode(Player p, Cell c, ArrayList<Player> list) {
+		rec++;
 			c.owner = null;
 			c.orbNumber=0;
 			c.rot.stop();
@@ -480,6 +483,24 @@ public class Grid96 extends Application {
 					if(c.y+1 < c.rows){
 						//System.out.println("y + 1 "  +  String.valueOf(c.y + 1));
 						makeMove (array[c.x][c.y+1],p,list);
+					}
+					rec--;
+					if(rec==0) {
+						players.add(current);
+						if(turncounter>2) {
+							for(int k=0;k<players.size();k++) {
+								if(players.get(k).noOfCells==0) {
+									players.remove(k);
+								}
+							}
+						}
+						if(players.size() == 1) {
+							System.out.println(players.get(0).name+" wins");
+							System.exit(0);
+						}
+						previous=current;
+						current=players.get(0);
+						players.remove(0);
 					}
 				}
 			});
@@ -519,9 +540,9 @@ public class Grid96 extends Application {
 				}
 			});
 			//System.out.println("start");
-			for(int i = 0 ; i < c.neighbours.size() ; i++) {
+			/*for(int i = 0 ; i < c.neighbours.size() ; i++) {
 				System.out.println(c.neighbours.get(i).x + " " + c.neighbours.get(i).y);
-			}
+			}*/
 			t1.play();
 			t2.play();
 			t3.play();
@@ -530,7 +551,7 @@ public class Grid96 extends Application {
 	}
 	public static void makeMove (Cell c, Player p, ArrayList<Player> list){
 		//System.out.println("called");
-		
+		System.out.println(rec);
 		if(!(c.owner == null || c.owner == p)) {
 			c.switcho(p);
 		}
