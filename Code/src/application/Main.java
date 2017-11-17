@@ -92,7 +92,6 @@ public class Main extends Application implements Initializable{
 		newstage.setScene(scene);
 		newstage.show();
 	}
-	
 	@FXML 
 	private void handleNewGame(ActionEvent event) throws IOException{
 		
