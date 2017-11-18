@@ -1,6 +1,8 @@
 package application;
 
 import javafx.scene.*;
+import java.applet.*;
+import java.net.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
@@ -14,10 +16,20 @@ import java.util.ArrayList;
 import java.util.Optional;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
+
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.DataLine;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
+
 import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
 
 import java.io.*;
+
+import javafx.animation.Animation;
 import javafx.animation.TranslateTransition;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
@@ -46,6 +58,7 @@ public class Grid96 extends Application {
 	String winner;
 	//int currentx;
 	//int currenty;
+	private Animation clip;
 
 	Grid96(){
 		Main ob = new Main();
@@ -89,7 +102,12 @@ public class Grid96 extends Application {
 				cell_size = 45;
 			}
 		}
-		
+		try {
+			AudioClip clip = Applet.newAudioClip(new URL("/pop.wav"));
+			//clip.play();
+			} catch (MalformedURLException murle) {
+			System.out.println(murle);
+			}
 	}
 	
 	public static void cgc(Rectangle[][] vis, Player p) {
@@ -673,6 +691,7 @@ public class Grid96 extends Application {
 				c.balls.get(i).setTranslateX(0);
 				c.balls.get(i).setTranslateY(0);
 			}
+			clip.play();
 			TranslateTransition t1 = new TranslateTransition(Duration.seconds(0.4), c.r1);
 			t1.setFromX(0);
 			t1.setToX(50);

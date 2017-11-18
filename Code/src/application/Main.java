@@ -59,12 +59,15 @@ public class Main extends Application implements Initializable{
 		combobox.setItems(list);
 		combobox2.setItems(list2);
 		
-		Color c = Color.WHITE;
+		//Color c = Color.WHITE;
 		SettingPage.playerColor.add(Color.RED);
+		SettingPage.playerColor.add(Color.GREEN);
 		SettingPage.playerColor.add(Color.BLUE);
-		for(int i = 2 ; i < 8 ; i ++){
-			SettingPage.playerColor.add(c);
-		}
+		SettingPage.playerColor.add(Color.YELLOW);
+		SettingPage.playerColor.add(Color.PURPLE);
+		SettingPage.playerColor.add(Color.TURQUOISE);
+		SettingPage.playerColor.add(Color.ORANGE);
+		SettingPage.playerColor.add(Color.WHITE);
 	}
 
 	static String noOfPlayers ;
