@@ -14,20 +14,74 @@ import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Sphere;
 
-public class Cell{
+/**
+ * Date : November 18, 2017
+ * Cell class implements an application that creates the state of each cell with all the various attributes associated with it
+ * 
+ * @author manvigoel, arpitbhatia
+ */
+	public class Cell{
 	int oe = 1;
+	/**
+	 * initialise the object of class sCell
+	 */
 	public sCell sc=new sCell();
+	
+	/**
+	 *int value to store the value of each cell's x coordinate 
+	 */
 	public int x=sc.x ;
+	
+	/**
+	 * int value to store the value of each cell's y coordinate
+	 */
 	public int y=sc.y ;
+	
+	/**
+	 * int value to store the critical mass
+	 */
 	public int criticalMass=sc.criticalMass;
+	
+	/**
+	 * int value to store the cell's orbnumber
+	 */
 	public int orbNumber=sc.orbNumber;
+	
+	/**
+	 * attribute of type group to store all nodes together
+	 */
 	public Group branch = new Group();
-	public Player owner=sc.owner;
-	public Timeline rot = new Timeline();;
+	
+	/**
+	 * player owner to store the owner of scell's player
+	 */
+	public Player owner = sc.owner;
+	
+	/**
+	 * object of type Timeline to ensure sequential execution
+	 */
+	public Timeline rot = new Timeline();
+	
+	/**
+	 * arralist of spheres to store balls
+	 */
 	public ArrayList <Sphere> balls = new ArrayList<Sphere>();
+	
+	/**
+	 * arraylist of cells consisting of neighbours of each cell
+	 */
 	public ArrayList <Cell> neighbours = new ArrayList<Cell>();
+	
+	/**
+	 * 4 spheres for each neighbour
+	 */
 	public Sphere r1,r2,r3,r4;
 	String size = ("9 x 6");
+	
+	
+	/**
+	 * creates balls for each cell
+	 */
 	public void createballs() {
 		balls.clear();
 		
@@ -60,6 +114,13 @@ public class Cell{
 		balls.add(r3);
 		balls.add(r4);*/
 	}
+	
+	
+	/**
+	 * Constructor to initilise frames and call creat ball
+	 * @param x coordinate of each cell
+	 * @param y coordinate of each cell
+	 */
 	public Cell(int x, int y){
 		
 		size = Main.gridSize;
@@ -73,7 +134,6 @@ public class Cell{
 			cols = 15;
 			
 		}
-		
 		
 		this.x = x;
 		this.sc.x=x;
@@ -91,7 +151,14 @@ public class Cell{
 		createballs();
 		//branch.getChildren().add(r);
 	}
-public Cell(sCell sc){
+	
+	
+	/**
+	 * Constructor to store value from a previously stored state 
+	 * @param sc variable of type sCell
+	 */
+	public Cell(sCell sc){
+		
 		this.sc=sc;
 		if(Main.gridSize != null){
 			size = Main.gridSize;
@@ -129,6 +196,11 @@ public Cell(sCell sc){
 		//System.out.print(" "+orbNumber+" ");
 		//branch.getChildren().add(r);
 	}
+	
+	
+	/**
+	 * sets translation of all balls to 0
+	 */
 	public void reset() {
 		orbNumber=0;
 		this.branch.getChildren().clear();
@@ -142,8 +214,16 @@ public Cell(sCell sc){
 		r4.setTranslateY(0);
 		rot.playFromStart();
 	}
+	/**
+	 * initialise value of rows and columns
+	 */
 	static int rows = 6, cols = 9;
 	
+	/**
+	 * calculates critical mass for each cell
+	 * @param x x-coordinate 
+	 * @param y y-coordinate
+	 */
 	public void findCriticalMass(int x, int y){
 		if(x==0 || x==cols-1) {
 			if(y==0 || y==rows-1) {
@@ -175,6 +255,11 @@ public Cell(sCell sc){
 		}
 	}
 	
+	
+	/**
+	 * finds the neighbours of each cell and adds to an arraylist
+	 * @param array 2d array of cell
+	 */
 	public void findNeighbours(Cell[][] array){
 		if(x + 1 < cols) {
 			neighbours.add(array[this.x+1][this.y]);
@@ -188,49 +273,28 @@ public Cell(sCell sc){
 		if(y + 1 < rows) {
 			neighbours.add(array[this.x][this.y+1]);
 		}
-		/*
-		try {
-			this.neighbours.add(array[this.x+1][this.y]);
-		}catch(ArrayIndexOutOfBoundsException e) {
-			
-		}
-		finally{
-			//System.out.println("Added");
-		}
-		try {
-			this.neighbours.add(array[this.x][this.y+1]);
-		}catch(ArrayIndexOutOfBoundsException e) {
-			
-		}
-		finally{
-			
-		}
-		try {
-			this.neighbours.add(array[this.x-1][this.y]);
-		}catch(ArrayIndexOutOfBoundsException e) {
-			
-		}
-		finally{
-			
-		}
-		try {
-			this.neighbours.add(array[this.x][this.y-1]);
-		}catch(ArrayIndexOutOfBoundsException e) {
-			
-		}
-		finally{
-			
-		}*/
+		
 	}
 	
+	/**
+	 * @return arraylist of neighbours
+	 */
 	public ArrayList<Cell> getNeighbours(){
 		return (this.neighbours);
 	}
 	
+	/**
+	 * @param x xcoordinate
+	 * @param y ycoordinate
+	 * @return critical mass of each cell
+	 */
 	public int getCriticalMass(int x, int y){
 		return (this.criticalMass);
 	}
 	
+	/**
+	 * adds an orb to each cell with proper animation
+	 */
 	public void addOrb(){
 		oe++;
 		Random ran = new Random(System.currentTimeMillis());
@@ -263,6 +327,11 @@ public Cell(sCell sc){
 		this.sc.orbNumber=this.orbNumber;
 	}
 	
+	/**
+	 * change the owner of a cell when occupied by another player
+	 * @param n new owner of the cell
+	 * 
+	 */
 	public void switcho(Player n) {
 		this.owner.subCell();
 		this.sc.owner.subCell();
@@ -278,16 +347,25 @@ public Cell(sCell sc){
 	}
 	
 	
-	
+	/**
+	 * @return number of orbs of each player
+	 */
 	public int getorbs(){
 		return this.orbNumber;
 	}
 	
+	/**
+	 * sets the owner of each cell
+	 * @param owner owner of type player
+	 */
 	public void setOwner(Player owner){
 		this.owner = owner;
 		this.sc.owner=owner;
 	}
 	
+	/**
+	 * @return owner of each cell
+	 */
 	public Player getOwner(){
 		return this.owner;
 	}

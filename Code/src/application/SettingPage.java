@@ -19,7 +19,18 @@ import javafx.scene.control.ColorPicker;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
+/**
+ * Date : November 18, 2017
+ * The SettingPage class implements an application that stores the color of each player as entered by the user.
+ * It implements the initializable interface.
+ * 
+ * @author manvigoel, arpitbhatia
+ */
+
 public class SettingPage extends Application implements Initializable{
+	/* (non-Javadoc)
+	 * @see javafx.application.Application#start(javafx.stage.Stage)
+	 */
 	@Override
 	public void start(Stage primaryStage) throws IOException {
 	
@@ -30,29 +41,62 @@ public class SettingPage extends Application implements Initializable{
 		newstage.show();
 			
 		}
+	/**
+	 * button to direct to home page
+	 */
 	@FXML
 	private Button b2;
 	
+	/**
+	 * araylist of type color to store color of each player
+	 */
 	static ArrayList<Color> playerColor = new ArrayList<Color>();
 	
+	/**
+	 * colorpicker to store color of player 1
+	 */
 	@FXML
 	private ColorPicker cp1;
+	/**
+	 * colorpicker to store color of player 2
+	 */
 	@FXML
 	private ColorPicker cp2;
+	/**
+	 * colorpicker to store color of player 3
+	 */
 	@FXML
 	private ColorPicker cp3;
+	/**
+	 * colorpicker to store color of player 4
+	 */
 	@FXML
 	private ColorPicker cp4;
+	/**
+	 * colorpicker to store color of player 5
+	 */
 	@FXML
 	private ColorPicker cp5;
+	/**
+	 * colorpicker to store color of player 6
+	 */
 	@FXML
 	private ColorPicker cp6;
+	/**
+	 * colorpicker to store color of player 7
+	 */
 	@FXML
 	private ColorPicker cp7;
+	/**
+	 * colorpicker to store color of player 8
+	 */
 	@FXML
 	private ColorPicker cp8;
 	
 	
+	/* (non-Javadoc)
+	 * @see javafx.fxml.Initializable#initialize(java.net.URL, java.util.ResourceBundle)
+	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		// TODO Auto-generated method stub
@@ -60,6 +104,11 @@ public class SettingPage extends Application implements Initializable{
 		
 	}
 
+	/**
+	 * directs to the home page
+	 * @param event b2 button on clicking directs to the home page 
+	 * @throws IOException
+	 */
 	@FXML
 	private void handleButtonAction(ActionEvent event) throws IOException{
 		
@@ -73,15 +122,28 @@ public class SettingPage extends Application implements Initializable{
 	
 	}
 	
+	/**
+	 * sets the color for the player1 as selected  
+	 * @param event 
+	 * @throws IOException
+	 */
 	@FXML
 	private void handlecolorPicker1(ActionEvent event) throws IOException{
 		playerColor.set(0, cp1.getValue());
 	
 	}
 	
+	/**
+	 * int value to store the total number of players in the game
+	 */
 	int totalPlayers;
 	
 	
+	/**
+	 *  sets the color for the player2 as selected
+	 * @param event
+	 * @throws IOException
+	 */
 	@FXML
 	private void handlecolorPicker2(ActionEvent event) throws IOException{
 		
@@ -97,6 +159,12 @@ public class SettingPage extends Application implements Initializable{
 		
 	}
 	
+	
+	/**
+	 *  sets the color for the player3 as selected
+	 * @param event
+	 * @throws IOException
+	 */
 	@FXML
 	private void handlecolorPicker3(ActionEvent event) throws IOException{
 		
@@ -110,6 +178,11 @@ public class SettingPage extends Application implements Initializable{
 		
 	}
 	
+	/**
+	 * sets the color for the player 4 as selected
+	 * @param event
+	 * @throws IOException
+	 */
 	@FXML
 	private void handlecolorPicker4(ActionEvent event) throws IOException{
 		if(cp4.getValue().equals(cp1.getValue()) || cp4.getValue().equals(cp2.getValue()) || cp4.getValue().equals(cp3.getValue())){
@@ -123,6 +196,12 @@ public class SettingPage extends Application implements Initializable{
 		
 	}
 	
+	
+	/**
+	 *  sets the color for the player5 as selected
+	 * @param event
+	 * @throws IOException
+	 */
 	@FXML
 	private void handlecolorPicker5(ActionEvent event) throws IOException{
 		if(cp5.getValue().equals(cp1.getValue()) || cp5.getValue().equals(cp2.getValue()) || cp5.getValue().equals(cp3.getValue()) || cp5.getValue().equals(cp4.getValue())){
@@ -136,6 +215,12 @@ public class SettingPage extends Application implements Initializable{
 		
 	}
 	
+	
+	/**
+	 *  sets the color for the player6 as selected
+	 * @param event
+	 * @throws IOException
+	 */
 	@FXML
 	private void handlecolorPicker6(ActionEvent event) throws IOException{
 		if(cp6.getValue().equals(cp1.getValue()) || cp6.getValue().equals(cp2.getValue()) || cp6.getValue().equals(cp3.getValue()) || cp6.getValue().equals(cp4.getValue())  || cp6.getValue().equals(cp5.getValue()) ){
@@ -148,6 +233,11 @@ public class SettingPage extends Application implements Initializable{
 		
 	}
 	
+	/**
+	 *  sets the color for the player7 as selected
+	 * @param event
+	 * @throws IOException
+	 */
 	@FXML
 	private void handlecolorPicker7(ActionEvent event) throws IOException{
 		if(cp7.getValue().equals(cp1.getValue()) || cp7.getValue().equals(cp2.getValue()) || cp7.getValue().equals(cp3.getValue()) || cp7.getValue().equals(cp4.getValue())  || cp7.getValue().equals(cp5.getValue()) || cp7.getValue().equals(cp6.getValue()) ){
@@ -160,6 +250,11 @@ public class SettingPage extends Application implements Initializable{
 		
 	}
 	
+	/**
+	 * sets the color for the player 8 as selected
+	 * @param event
+	 * @throws IOException
+	 */
 	@FXML
 	private void handlecolorPicker8(ActionEvent event) throws IOException{
 		if(cp8.getValue().equals(cp1.getValue()) || cp8.getValue().equals(cp2.getValue()) || cp8.getValue().equals(cp3.getValue()) || cp8.getValue().equals(cp4.getValue())  || cp8.getValue().equals(cp5.getValue()) || cp8.getValue().equals(cp6.getValue()) || cp8.getValue().equals(cp7.getValue())){
@@ -173,11 +268,18 @@ public class SettingPage extends Application implements Initializable{
 	}
 	
 	
+	/**
+	 * @return arraylist of player's colors
+	 */
 	public static ArrayList<Color> getColor1(){
 		SettingPage ob1 = null ;
 		return ob1.playerColor;
 	}
 	
+	/**
+	 * main method of this application
+	 * @param args array of string arguments
+	 */
 	public static void main(String[] args) {
 		
 		launch(args);

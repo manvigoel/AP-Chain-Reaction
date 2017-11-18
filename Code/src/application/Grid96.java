@@ -1,6 +1,8 @@
 package application;
 
 import javafx.scene.*;
+import java.applet.*;
+import java.net.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
@@ -14,10 +16,20 @@ import java.util.ArrayList;
 import java.util.Optional;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
+
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.DataLine;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
+
 import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
 
 import java.io.*;
+
+import javafx.animation.Animation;
 import javafx.animation.TranslateTransition;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
@@ -29,24 +41,65 @@ import javafx.util.Duration;
 import java.util.concurrent.TimeUnit;
 import javafx.fxml.FXMLLoader;
 
-
+/**
+* Class Grid96 implements an application to start the game
+* Date : November 18, 2017
+* 
+* @author manvigoel, arpitbhatia
+*
+*/
 public class Grid96 extends Application {
+	/**
+	 * 2d array of cell 
+	 */
 	static Cell array[][];
+	/**
+	 * int to store rows, columns
+	 */
 	static int rows , col, game_end = 0;
+	/**
+	 * 2d array of rectangles
+	 */
 	static Rectangle[][] vis;
+	/**
+	 * float value to store cell size
+	 */
 	static float cell_size = 40;
 	int xc, yc;
+	/**
+	 * int value to check if a player has been removed
+	 */
 	static int rem = 0;
+	/**
+	 * initialise the number of players in the game
+	 */
 	static int noOfPlayers = 2;
+	/**
+	 * string value to store the grid size 
+	 */
 	String size = ("9 x 6");
+	/**
+	 * int value to store the number of turns
+	 */
 	static int turncounter = 0;
+	/**
+	 * arraylist of players 
+	 */
 	static ArrayList<Player> players = new ArrayList<Player>();
 	
+	/**
+	 * stores the current and previous player(Player class)
+	 */
 	static Player current, previous;
-	String winner;
+	
 	//int currentx;
 	//int currenty;
+	private Animation clip;
 
+	/**
+	 * Constructor for the class to initialise the rows and columns
+	 * Also initialise the number of plyers, and initialise players in the arraylist  
+	 */
 	Grid96(){
 		Main ob = new Main();
 		if(Main.noOfPlayers == null){
@@ -89,9 +142,19 @@ public class Grid96 extends Application {
 				cell_size = 45;
 			}
 		}
-		
+		try {
+			AudioClip clip = Applet.newAudioClip(new URL("/pop.wav"));
+			//clip.play();
+			} catch (MalformedURLException murle) {
+			System.out.println(murle);
+			}
 	}
 	
+	/**
+	 * sets the color of each rectangle according to the plauer color
+	 * @param vis 2d grid of rectangle
+	 * @param p player to make move
+	 */
 	public static void cgc(Rectangle[][] vis, Player p) {
 		for(int i = 0 ; i < rows ; i++) {
 			for(int j = 0 ; j < col ; j++) {
@@ -101,6 +164,10 @@ public class Grid96 extends Application {
 	}
 	
 	
+	/**
+	 * serialise the player the scell class
+	 * @throws IOException
+	 */
 	public static void serialize() throws IOException {
 		ObjectOutputStream out = null;
 		//ObjectOutputStream out2 = null;
@@ -123,6 +190,12 @@ public class Grid96 extends Application {
 			//out2.close();
 		}
 	}
+	
+	
+	/**
+	 * serialise the attributes of the player class
+	 * @throws IOException
+	 */
 	public static void serialize2() throws IOException {
 		ObjectOutputStream out2 = null;
 		try {
@@ -160,6 +233,12 @@ public class Grid96 extends Application {
 //				//return ret;
 //			}
 //		}
+	
+	/**
+	 * desrialises all the data from the files stored before
+	 * @throws IOException
+	 * @throws ClassNotFoundException
+	 */
 	public static void deserialize() throws IOException,ClassNotFoundException {
 		System.out.println("des called");
 		ObjectInputStream in = null;
@@ -193,10 +272,14 @@ public class Grid96 extends Application {
 	}
 	
 	
+	/**
+	 * creates the scene for the grid by adding various attributes to the scene
+	 * @return scene
+	 */
 	public Scene makeSceneGrid()
 	{
 		current = players.get(0);
-		Player other = players.get(1);
+		//Player other = players.get(1);
 		Group root = new Group();
 		Scene scene = new Scene(root, 550, 800, Color.BLACK);
 		array = new Cell[rows + 1][col + 1];
@@ -295,44 +378,14 @@ public class Grid96 extends Application {
 					
 						if(array[I][J].owner == null || array[I][J].owner == current) {
 							
-							//System.out.println(array[I][J].x+" "+array[I][J].y);
-							if(turncounter!=0) {
-								//System.out.println(current.name+" has no of cells= "+previous.getCells());
-							}
 							
 							turncounter++;
 							makeMove (array[I][J], current, players);
-							if(game_end == 1 || players.size() == 1){
-								
-								ButtonType b1 = new ButtonType("Main Menu");
-								ButtonType b2 = new ButtonType("New Game");
-								ButtonType b3 = new ButtonType("Exit");
-								
-								Alert alert = new Alert(AlertType.CONFIRMATION);
-								alert.setTitle("Congratulations!");
-								alert.setContentText(players.get(0).name+" wins");
-								alert.getButtonTypes().setAll(b1, b2, b3);
-								alert.showAndWait();
-								
-								if(alert.getResult() == b1){
-									mainMenu();
-								}
-								else if(alert.getResult() == b2){
-									Grid96 g= new Grid96();
-									Scene scene_grid= g.makeSceneGrid();
-								//	Main.newstage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-									Main.newstage.setScene(scene_grid);
-									Main.newstage.show();
-								}
-								else if(alert.getResult() == b3){
-									System.exit(0);
-								}
-								
-							}
 							
 							players.add(current);
 							previous = current;
 							players.remove(0);
+							System.out.println("current : " + current.name );
 							try {
 								serialize2();
 								//System.out.println("serialised");
@@ -341,8 +394,12 @@ public class Grid96 extends Application {
 								e1.printStackTrace();
 							}
 							current = players.get(0);
-							//System.out.println("Current " + current.name);
+							System.out.println("Current after move " + current.name );
 							cgc(vis,current);
+							
+							for(int x = 0 ; x < players.size() ; x ++){
+								System.out.println(players.get(x).name + " " + players.get(x).noOfCells);
+							}
 						}
 					}
 					else if(current.getCells() == 0){
@@ -354,38 +411,35 @@ public class Grid96 extends Application {
 							}
 						}
 						
-						for(int x = 0 ; x < players.size() ; x ++)
-							//System.out.println(players.get(x).name + " " + players.get(x).noOfCells);
-						
-						if(players.size() == 1) {
-							System.out.println("2 " + players.get(0).name+" wins");
-							game_end = 1;
-							ButtonType b1 = new ButtonType("Main Menu");
-							ButtonType b2 = new ButtonType("New Game");
-							ButtonType b3 = new ButtonType("Exit");
-							
-							Alert alert = new Alert(AlertType.CONFIRMATION);
-							alert.setTitle("Congratulations!");
-							alert.setContentText(players.get(0).name+" wins");
-							alert.getButtonTypes().setAll(b1, b2, b3);
-							alert.showAndWait();
-							
-							if(alert.getResult() == b1){
-								mainMenu();
-							}
-							else if(alert.getResult() == b2){
-								Grid96 g= new Grid96();
-								Scene scene_grid= g.makeSceneGrid();
-							//	Main.newstage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-								Main.newstage.setScene(scene_grid);
-								Main.newstage.show();
-							
-							}
-							else if (alert.getResult() == b3){
-								System.exit(0);
-							}
-							
-						}
+//						if(players.size() == 1) {
+//							System.out.println("2 " + players.get(0).name+" wins");
+//							game_end = 1;
+//							ButtonType b1 = new ButtonType("Main Menu");
+//							ButtonType b2 = new ButtonType("New Game");
+//							ButtonType b3 = new ButtonType("Exit");
+//							
+//							Alert alert = new Alert(AlertType.CONFIRMATION);
+//							alert.setTitle("Congratulations!");
+//							alert.setContentText(players.get(0).name+" wins");
+//							alert.getButtonTypes().setAll(b1, b2, b3);
+//							alert.showAndWait();
+//							
+//							if(alert.getResult() == b1){
+//								mainMenu();
+//							}
+//							else if(alert.getResult() == b2){
+//								Grid96 g= new Grid96();
+//								Scene scene_grid= g.makeSceneGrid();
+//							//	Main.newstage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+//								Main.newstage.setScene(scene_grid);
+//								Main.newstage.show();
+//							
+//							}
+//							else if (alert.getResult() == b3){
+//								System.exit(0);
+//							}
+//							
+//						}
 					}
 				});
 				
@@ -407,6 +461,11 @@ public class Grid96 extends Application {
 		return scene;
 
 	}
+	/**
+	 * creates the scene from the resumed condition by adding the respective attributes 
+	 * according to the last saved data
+	 * @return scene
+	 */
 	public Scene resumeSceneGrid()
 	{
 		turncounter--;
@@ -498,15 +557,17 @@ public class Grid96 extends Application {
 			
 			for(int j = 0 ; j < col ; j++) {
 				
-				//array[i][j] = new Cell(i, j);
+				array[i][j] = new Cell(i, j);
 				array[i][j].findCriticalMass(i, j);
 				array[i][j].branch.setLayoutX(startx + 25);
 				array[i][j].branch.setLayoutY(starty + 25);
-				 int ol=array[i][j].orbNumber;
-	                array[i][j].orbNumber=0;
-	                for(int q=0;q<ol;q++){
-	                    array[i][j].addOrb();
-	                }
+				int ol=array[i][j].orbNumber;
+	            array[i][j].orbNumber=0;
+	            
+	            for(int q=0;q<ol;q++){
+	            	
+	            	array[i][j].addOrb();
+	            }
 				root.getChildren().add(array[i][j].branch);
 				Integer I = new Integer(i);
 				Integer J = new Integer(j);
@@ -529,9 +590,7 @@ public class Grid96 extends Application {
 								e1.printStackTrace();
 							}
 							//System.out.println(array[I][J].x+" "+array[I][J].y);
-							if(turncounter!=0) {
-								//System.out.println(current.name+" has no of cells= "+previous.getCells());
-							}
+							
 							
 							turncounter++;
 							makeMove (array[I][J], current, players);
@@ -587,8 +646,6 @@ public class Grid96 extends Application {
 							}
 						}
 						
-						for(int x = 0 ; x < players.size() ; x ++)
-							//System.out.println(players.get(x).name + " " + players.get(x).noOfCells);
 						
 						if(players.size() == 1) {
 							System.out.println("2 " + players.get(0).name+" wins");
@@ -640,6 +697,9 @@ public class Grid96 extends Application {
 		return scene;
 
 	}
+	/**
+	 * loads the window of the main page
+	 */
 	public void mainMenu(){
 		Parent root = null ;
 		try {
@@ -654,6 +714,9 @@ public class Grid96 extends Application {
 	}
 	
 	
+	/* (non-Javadoc)
+	 * @see javafx.application.Application#start(javafx.stage.Stage)
+	 */
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		
@@ -663,7 +726,13 @@ public class Grid96 extends Application {
 		
 	}
 
-	public  void explode(Player p, Cell c, ArrayList<Player> list) {
+	/**
+	 * recursive function to perform explosion on each cell if the number of balls is equal to the critical mass 
+	 * @param p player to take over the cell
+	 * @param c cell on which explosion is to be performed
+	 * @param list arraylist of players
+	 */
+	public void explode(Player p, Cell c, ArrayList<Player> list) {
 			c.owner = null;
 			c.orbNumber = 0;
 			c.rot.stop();
@@ -673,6 +742,7 @@ public class Grid96 extends Application {
 				c.balls.get(i).setTranslateX(0);
 				c.balls.get(i).setTranslateY(0);
 			}
+			clip.play();
 			TranslateTransition t1 = new TranslateTransition(Duration.seconds(0.4), c.r1);
 			t1.setFromX(0);
 			t1.setToX(50);
@@ -681,25 +751,25 @@ public class Grid96 extends Application {
 					c.reset();
 					c.createballs();
 					if(c.y+1 < c.rows){
-						//System.out.println("y+1");
+						System.out.println("y+1");
 						makeMove (array[c.x][c.y+1],p,list);
 						if(turncounter > noOfPlayers) {
-							//System.out.println( "size " + players.size());
+							System.out.println( "size " + players.size());
 							
 							for(int k = 0 ; k < players.size() ; k++) {
 								
 								if(players.get(k).noOfCells==0) {
-									//System.out.println("remove" + players.get(k).name);
+									System.out.println("remove" + players.get(k).name);
 									players.remove(k);
 									rem = 1;
 									for(int a = 0 ; a < players.size() ; a ++){
-										//System.out.println(players.get(a).name);
+										System.out.println(players.get(a).name);
 									}
 								}
 								
 								if(rem == 1){
 									current = players.get(0);
-									//System.out.println("Current " + current.name);
+									System.out.println("Current " + current.name);
 									cgc(vis,current);
 									
 								}
@@ -718,7 +788,7 @@ public class Grid96 extends Application {
 					c.createballs();
 					
 					if(c.x+1<c.cols) {
-						//System.out.println("x+1");
+						System.out.println("x+1");
 						makeMove (array[c.x+1][c.y],p,list);
 						
 						if(turncounter > noOfPlayers) {
@@ -735,7 +805,7 @@ public class Grid96 extends Application {
 								}
 								if(rem == 1){
 									current = players.get(0);
-									//System.out.println("Current " + current.name);
+									System.out.println("Current " + current.name);
 									cgc(vis,current);
 								}
 								rem = 0;
@@ -771,7 +841,7 @@ public class Grid96 extends Application {
 								if(rem == 1){
 									//players.remove(0);
 									current = players.get(0);
-									//System.out.println("Current " + current.name);
+									System.out.println("Current " + current.name);
 									cgc(vis,current);
 									
 								}
@@ -807,7 +877,7 @@ public class Grid96 extends Application {
 								if(rem == 1){
 								//	players.remove(0);
 									current = players.get(0);
-									//System.out.println("Current " + current.name);
+									System.out.println("Current " + current.name);
 									cgc(vis,current);
 									
 								}
@@ -818,45 +888,48 @@ public class Grid96 extends Application {
 					if(players.size() == 1) {
 						
 						System.out.println("3 " + players.get(0).name+" wins");
-						ButtonType b1 = new ButtonType("Main Menu");
-						ButtonType b2 = new ButtonType("New Game");
-						ButtonType b3 = new ButtonType("Exit");
-						
-						Alert alert = new Alert(AlertType.CONFIRMATION);
-						alert.setTitle("Congratulations!");
-						alert.setContentText(players.get(0).name+" wins");
-						alert.getButtonTypes().setAll(b1, b2, b3);
-						alert.show();
-						
-						if(alert.getResult() == b1){
-							mainMenu();
-						}
-						else if(alert.getResult() == b2){
-							Grid96 g= new Grid96();
-							Scene scene_grid= g.makeSceneGrid();
-						//	Main.newstage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-							Main.newstage.setScene(scene_grid);
-							Main.newstage.show();
-						}
-						else if (alert.getResult() == b3){
-							System.exit(0);
-						}
-						game_end = 1;
-						
+//						ButtonType b1 = new ButtonType("Main Menu");
+//						ButtonType b2 = new ButtonType("New Game");
+//						ButtonType b3 = new ButtonType("Exit");
+//						
+//						Alert alert = new Alert(AlertType.CONFIRMATION);
+//						alert.setTitle("Congratulations!");
+//						alert.setContentText(players.get(0).name+" wins");
+//						alert.getButtonTypes().setAll(b1, b2, b3);
+//						alert.show();
+//						
+//						if(alert.getResult() == b1){
+//							mainMenu();
+//						}
+//						else if(alert.getResult() == b2){
+//							Grid96 g= new Grid96();
+//							Scene scene_grid= g.makeSceneGrid();
+//						//	Main.newstage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+//							Main.newstage.setScene(scene_grid);
+//							Main.newstage.show();
+//						}
+//						else if (alert.getResult() == b3){
+//							System.exit(0);
+//						}
+//						game_end = 1;
+//						
 					}
 				}
 			});
 			
-			
-			for(int i = 0 ; i < c.neighbours.size() ; i++) {
-				//System.out.println(c.neighbours.get(i).x + " " + c.neighbours.get(i).y);
-			}
+		
 			t1.play();
 			t2.play();
 			t3.play();
 			t4.play();
 			
 	}
+	/**
+	 * makes a move on each cell, adds the balls according to the critical mass of each cell
+	 * @param c cell on which to make move
+	 * @param p player to make the move
+	 * @param list arraylist of players
+	 */
 	public  void makeMove (Cell c, Player p, ArrayList<Player> list){
 		
 		if(!(c.owner == null || c.getOwner().equals(p))) {
@@ -882,7 +955,10 @@ public class Grid96 extends Application {
 		}
 		
 	}
-	
+	/**
+	 * main method of this application
+	 * @param args array of string arguments
+	 */
 	public static void main(String[] args) {
 		launch(args);
 	}
