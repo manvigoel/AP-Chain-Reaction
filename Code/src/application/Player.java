@@ -62,4 +62,17 @@ public class Player implements Serializable {
 	public int getCells() {
 		return this.noOfCells;
 	}
+	@Override
+    public boolean equals(Object a) {
+		if (!(a instanceof Player)) {
+            return false;
+        }
+		Player p=(Player)a;
+		if(this.name==p.name && this.r==p.r && this.g==p.g && this.b==p.b && this.noOfCells==p.noOfCells) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
 }

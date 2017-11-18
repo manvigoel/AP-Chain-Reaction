@@ -265,9 +265,11 @@ public Cell(sCell sc){
 	
 	public void switcho(Player n) {
 		this.owner.subCell();
+		this.sc.owner.subCell();
 		this.owner=n;
 		this.sc.owner=n;
 		this.owner.addCell();
+		this.sc.owner.addCell();
 		Material kMaterial = new PhongMaterial();
 		((PhongMaterial) kMaterial).setDiffuseColor(owner.color);
 		for(int i=0;i<balls.size();i++) {

@@ -101,9 +101,7 @@ public class Main extends Application implements Initializable{
 		newstage.show();
 	}
 	public static void main(String[] args) {
-		
 		launch(args);
-		
 		//System.out.println(noOfPlayers.charAt(0));
 		
 	}
