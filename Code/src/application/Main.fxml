@@ -14,15 +14,15 @@
 <?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane blendMode="MULTIPLY" prefHeight="470.0" prefWidth="385.0" style="-fx-background-color: Black;" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.Main">
+<AnchorPane blendMode="MULTIPLY" prefHeight="800.0" prefWidth="550.0" style="-fx-background-color: Black;" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.Main">
    <children>
-      <Button fx:id="b1" layoutX="101.0" layoutY="405.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="27.0" prefWidth="167.0" style="-fx-background-color: LIGHTBLUE LIGHTBLUE;" text="Player Settings" textAlignment="JUSTIFY" textOverrun="WORD_ELLIPSIS" />
-      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="115.0" layoutY="39.0" prefHeight="35.0" prefWidth="159.0" style="-fx-border-color: RED;" text="CHAIN REACTION" underline="true">
+      <Button fx:id="b1" layoutX="192.0" layoutY="611.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="27.0" prefWidth="167.0" style="-fx-background-color: LIGHTBLUE LIGHTBLUE;" text="Player Settings" textAlignment="JUSTIFY" textOverrun="WORD_ELLIPSIS" />
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="158.0" layoutY="41.0" prefHeight="47.0" prefWidth="262.0" style="-fx-border-color: RED;" text="CHAIN REACTION" underline="true">
          <effect>
             <InnerShadow blurType="TWO_PASS_BOX" color="#e30b0b" />
          </effect>
          <font>
-            <Font size="17.0" />
+            <Font size="20.0" />
          </font>
          <textFill>
             <RadialGradient centerX="0.5" centerY="0.5" radius="0.5">
@@ -33,17 +33,20 @@
             </RadialGradient>
          </textFill>
       </Label>
-      <Separator layoutX="16.0" layoutY="86.0" prefHeight="5.0" prefWidth="357.0" style="-fx-background-color: Blue;" />
-      <ImageView fitHeight="45.0" fitWidth="41.0" layoutX="43.0" layoutY="36.0" pickOnBounds="true" preserveRatio="true">
+      <Separator layoutX="55.0" layoutY="120.0" prefHeight="4.0" prefWidth="446.0" style="-fx-background-color: Blue;" />
+      <ImageView fitHeight="47.0" fitWidth="58.0" layoutX="55.0" layoutY="41.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../../../../Desktop/chainreaction.png" />
          </image>
       </ImageView>
-      <Label layoutX="12.0" layoutY="102.0" onDragDetected="#handleButtonAction" prefHeight="161.0" prefWidth="365.0" text="The objective of the game is to take control of the board &#10;by eliminating the opponent's orbs. &#10;Players take turns to place their orbs in a acell. Once a cell &#10;has reached its critical mass, the orbs explode into the &#10;surrounding cells adding an extra orb and claiming the cell &#10;for the player. A player may only place orbs in a blank cell &#10;or a cell that contains orbs of their own colour. As soon as &#10;a player loses all their orbs, they are out of the game!&#10;&#10;" textFill="WHITE" />
-      <ComboBox fx:id="combobox" layoutX="102.0" layoutY="256.0" onAction="#test" prefHeight="27.0" prefWidth="167.0" promptText="Number of players" style="-fx-background-color: LIGHTBLUE;" />
-      <Button fx:id="b2" layoutX="101.0" layoutY="327.0" mnemonicParsing="false" onAction="#handleNewGame" prefHeight="27.0" prefWidth="167.0" style="-fx-background-color: LIGHTBLUE;" text="New Game" />
-      <Button layoutX="102.0" layoutY="367.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="167.0" style="-fx-background-color: LIGHTBLUE LIGHTBLUE;" text=" Resume game" />
-      <ComboBox fx:id="combobox2" layoutX="101.0" layoutY="291.0" onAction="#test2" prefHeight="27.0" prefWidth="167.0" promptText="Grid Size" style="-fx-background-color: LIGHTBLUE LIGHTBLUE;" />
+      <Label layoutX="20.0" layoutY="138.0" onDragDetected="#handleButtonAction" prefHeight="262.0" prefWidth="516.0" text="The objective of the game is to take control of the board&#10;by  eliminating the opponent's orbs. &#10;Players take turns to place their orbs in a acell. Once a cell &#10;has reached its critical mass, the orbs explode into the &#10;surrounding cells adding an extra orb and claiming the cell &#10;for the player. A player may only place orbs in a blank cell &#10;or a cell that contains orbs of their own colour. As soon as &#10;a player loses all their orbs, they are out of the game!&#10;&#10;" textFill="WHITE">
+         <font>
+            <Font size="18.0" />
+         </font></Label>
+      <ComboBox fx:id="combobox" layoutX="55.0" layoutY="438.0" onAction="#test" prefHeight="27.0" prefWidth="167.0" promptText="Number of players" style="-fx-background-color: LIGHTBLUE;" />
+      <Button fx:id="b2" layoutX="308.0" layoutY="438.0" mnemonicParsing="false" onAction="#handleNewGame" prefHeight="27.0" prefWidth="167.0" style="-fx-background-color: LIGHTBLUE;" text="New Game" />
+      <Button fx:id="b3" layoutX="308.0" layoutY="510.0" mnemonicParsing="false" onAction="#handleResumeButton" prefHeight="27.0" prefWidth="167.0" style="-fx-background-color: LIGHTBLUE LIGHTBLUE;" text=" Resume game" />
+      <ComboBox fx:id="combobox2" layoutX="55.0" layoutY="510.0" onAction="#test2" prefHeight="27.0" prefWidth="167.0" promptText="Grid Size" style="-fx-background-color: LIGHTBLUE LIGHTBLUE;" />
    </children>
    <cursor>
       <Cursor fx:constant="E_RESIZE" />

@@ -13,14 +13,13 @@ import javafx.scene.paint.Material;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Sphere;
-
 /**
  * Date : November 18, 2017
  * Cell class implements an application that creates the state of each cell with all the various attributes associated with it
  * 
  * @author manvigoel, arpitbhatia
  */
-	public class Cell{
+public class Cell{
 	int oe = 1;
 	/**
 	 * initialise the object of class sCell
@@ -55,12 +54,12 @@ import javafx.scene.shape.Sphere;
 	/**
 	 * player owner to store the owner of scell's player
 	 */
-	public Player owner = sc.owner;
+	public Player owner=sc.owner;
 	
 	/**
 	 * object of type Timeline to ensure sequential execution
 	 */
-	public Timeline rot = new Timeline();
+	public Timeline rot = new Timeline();;
 	
 	/**
 	 * arralist of spheres to store balls
@@ -77,7 +76,6 @@ import javafx.scene.shape.Sphere;
 	 */
 	public Sphere r1,r2,r3,r4;
 	String size = ("9 x 6");
-	
 	
 	/**
 	 * creates balls for each cell
@@ -115,7 +113,6 @@ import javafx.scene.shape.Sphere;
 		balls.add(r4);*/
 	}
 	
-	
 	/**
 	 * Constructor to initilise frames and call creat ball
 	 * @param x coordinate of each cell
@@ -152,13 +149,11 @@ import javafx.scene.shape.Sphere;
 		//branch.getChildren().add(r);
 	}
 	
-	
 	/**
 	 * Constructor to store value from a previously stored state 
 	 * @param sc variable of type sCell
 	 */
 	public Cell(sCell sc){
-		
 		this.sc=sc;
 		if(Main.gridSize != null){
 			size = Main.gridSize;
@@ -197,7 +192,6 @@ import javafx.scene.shape.Sphere;
 		//branch.getChildren().add(r);
 	}
 	
-	
 	/**
 	 * sets translation of all balls to 0
 	 */
@@ -214,6 +208,7 @@ import javafx.scene.shape.Sphere;
 		r4.setTranslateY(0);
 		rot.playFromStart();
 	}
+	
 	/**
 	 * initialise value of rows and columns
 	 */
@@ -255,7 +250,6 @@ import javafx.scene.shape.Sphere;
 		}
 	}
 	
-	
 	/**
 	 * finds the neighbours of each cell and adds to an arraylist
 	 * @param array 2d array of cell
@@ -282,6 +276,7 @@ import javafx.scene.shape.Sphere;
 	public ArrayList<Cell> getNeighbours(){
 		return (this.neighbours);
 	}
+	
 	
 	/**
 	 * @param x xcoordinate
@@ -327,6 +322,7 @@ import javafx.scene.shape.Sphere;
 		this.sc.orbNumber=this.orbNumber;
 	}
 	
+	
 	/**
 	 * change the owner of a cell when occupied by another player
 	 * @param n new owner of the cell
@@ -334,11 +330,11 @@ import javafx.scene.shape.Sphere;
 	 */
 	public void switcho(Player n) {
 		this.owner.subCell();
-		this.sc.owner.subCell();
+		//this.sc.owner.subCell();
 		this.owner=n;
 		this.sc.owner=n;
 		this.owner.addCell();
-		this.sc.owner.addCell();
+		//this.sc.owner.addCell();
 		Material kMaterial = new PhongMaterial();
 		((PhongMaterial) kMaterial).setDiffuseColor(owner.color);
 		for(int i=0;i<balls.size();i++) {

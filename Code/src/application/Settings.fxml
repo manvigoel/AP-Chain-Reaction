@@ -11,11 +11,11 @@
 <?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="470.0" prefWidth="385.0" style="-fx-background-color: BLACK;" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.SettingPage">
+<AnchorPane prefHeight="800.0" prefWidth="550.0" style="-fx-background-color: BLACK;" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.SettingPage">
    <children>
-      <Label layoutX="103.0" layoutY="26.0" prefHeight="32.0" prefWidth="226.0" style="-fx-border-color: RED;" text="CHAIN REACTION PREFERENCES">
+      <Label layoutX="97.0" layoutY="25.0" prefHeight="42.0" prefWidth="373.0" style="-fx-border-color: RED;" text="CHAIN REACTION PREFERENCES">
          <font>
-            <Font size="14.0" />
+            <Font size="22.0" />
          </font>
          <textFill>
             <RadialGradient centerX="0.5" centerY="0.5" radius="0.5">
@@ -26,61 +26,61 @@
             </RadialGradient>
          </textFill>
       </Label>
-      <ImageView fitHeight="35.0" fitWidth="32.0" layoutX="51.0" layoutY="26.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="42.0" fitWidth="50.0" layoutX="33.0" layoutY="26.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../../../../Desktop/chainreaction.png" />
          </image>
       </ImageView>
-      <Separator layoutX="22.0" layoutY="72.0" prefHeight="7.0" prefWidth="340.0" style="-fx-background-color: Blue;" />
-      <Separator layoutX="19.0" layoutY="103.0" orientation="VERTICAL" prefHeight="321.0" prefWidth="7.0" />
-      <ColorPicker fx:id="cp1" layoutX="146.0" layoutY="98.0" onAction="#handlecolorPicker1" prefHeight="32.0" prefWidth="139.0" promptText="Choose color" />
-      <Label layoutX="51.0" layoutY="107.0" text="Player 1" textFill="WHITE">
+      <Separator layoutX="35.0" layoutY="91.0" prefHeight="7.0" prefWidth="468.0" style="-fx-background-color: Blue;" />
+      <Separator layoutX="19.0" layoutY="123.0" orientation="VERTICAL" prefHeight="587.0" prefWidth="32.0" />
+      <ColorPicker fx:id="cp1" layoutX="281.0" layoutY="148.0" onAction="#handlecolorPicker1" prefHeight="32.0" prefWidth="139.0" promptText="Choose color" />
+      <Label layoutX="74.0" layoutY="150.0" text="Player 1" textFill="WHITE">
          <font>
-            <Font size="16.0" />
+            <Font size="22.0" />
          </font>
       </Label>
-      <Label layoutX="51.0" layoutY="345.0" text="Player 7" textFill="WHITE">
+      <Label layoutX="74.0" layoutY="565.0" text="Player 7" textFill="WHITE">
          <font>
-            <Font size="16.0" />
+            <Font size="22.0" />
          </font>
       </Label>
-      <Label layoutX="51.0" layoutY="306.0" text="Player 6" textFill="WHITE">
+      <Label layoutX="73.0" layoutY="497.0" text="Player 6" textFill="WHITE">
          <font>
-            <Font size="16.0" />
+            <Font size="22.0" />
          </font>
       </Label>
-      <Label layoutX="51.0" layoutY="267.0" text="Player 5" textFill="WHITE">
+      <Label layoutX="73.0" layoutY="425.0" text="Player 5" textFill="WHITE">
          <font>
-            <Font size="16.0" />
+            <Font size="22.0" />
          </font>
       </Label>
-      <Label layoutX="51.0" layoutY="383.0" text="Player 8" textFill="WHITE">
+      <Label layoutX="73.0" layoutY="625.0" prefHeight="20.0" prefWidth="104.0" text="Player 8" textFill="WHITE">
          <font>
-            <Font size="16.0" />
+            <Font size="22.0" />
          </font>
       </Label>
-      <Label layoutX="51.0" layoutY="147.0" text="Player 2" textFill="WHITE">
+      <Label layoutX="71.0" layoutY="218.0" text="Player 2" textFill="WHITE">
          <font>
-            <Font size="16.0" />
+            <Font size="22.0" />
          </font>
       </Label>
-      <Label layoutX="51.0" layoutY="188.0" text="Player 3" textFill="WHITE">
+      <Label layoutX="71.0" layoutY="286.0" text="Player 3" textFill="WHITE">
          <font>
-            <Font size="16.0" />
+            <Font size="22.0" />
          </font>
       </Label>
-      <Label layoutX="51.0" layoutY="227.0" text="Player 4" textFill="WHITE">
+      <Label layoutX="71.0" layoutY="356.0" text="Player 4" textFill="WHITE">
          <font>
-            <Font size="16.0" />
+            <Font size="22.0" />
          </font>
       </Label>
-      <ColorPicker fx:id="cp2" layoutX="146.0" layoutY="144.0" onAction="#handlecolorPicker2" />
-      <ColorPicker fx:id="cp3" layoutX="146.0" layoutY="185.0" onAction="#handlecolorPicker3" />
-      <ColorPicker fx:id="cp4" layoutX="146.0" layoutY="226.0" onAction="#handlecolorPicker4" />
-      <ColorPicker fx:id="cp5" layoutX="146.0" layoutY="265.0" onAction="#handlecolorPicker5" />
-      <ColorPicker fx:id="cp6" layoutX="146.0" layoutY="303.0" onAction="#handlecolorPicker6" />
-      <ColorPicker fx:id="cp7" layoutX="146.0" layoutY="342.0" onAction="#handlecolorPicker7" />
-      <ColorPicker fx:id="cp8" layoutX="146.0" layoutY="380.0" onAction="#handlecolorPicker8" />
-      <Button fx:id="b2" layoutX="169.0" layoutY="424.0" mnemonicParsing="false" onAction="#handleButtonAction" style="-fx-background-color: LIGHTBLUE;" text="Home " />
+      <ColorPicker fx:id="cp2" layoutX="281.0" layoutY="219.0" onAction="#handlecolorPicker2" />
+      <ColorPicker fx:id="cp3" layoutX="281.0" layoutY="287.0" onAction="#handlecolorPicker3" />
+      <ColorPicker fx:id="cp4" layoutX="281.0" layoutY="357.0" onAction="#handlecolorPicker4" />
+      <ColorPicker fx:id="cp5" layoutX="281.0" layoutY="426.0" onAction="#handlecolorPicker5" />
+      <ColorPicker fx:id="cp6" layoutX="281.0" layoutY="498.0" onAction="#handlecolorPicker6" />
+      <ColorPicker fx:id="cp7" layoutX="281.0" layoutY="566.0" onAction="#handlecolorPicker7" />
+      <ColorPicker fx:id="cp8" layoutX="281.0" layoutY="626.0" onAction="#handlecolorPicker8" />
+      <Button fx:id="b2" layoutX="246.0" layoutY="700.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="27.0" prefWidth="104.0" style="-fx-background-color: LIGHTBLUE;" text="Home " />
    </children>
 </AnchorPane>

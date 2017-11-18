@@ -1,6 +1,7 @@
 package application;
 //import application.SettingPage;
-import java.lang.*;	
+import java.lang.*;
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -21,7 +22,6 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 
-
 /**
  * Date : November 18, 2017
  * Main class implements an application to start the main page of the game
@@ -33,7 +33,6 @@ public class Main extends Application implements Initializable{
 	 * newstage variable of type stage
 	 */
 	static Stage newstage;
-	
 	/* (non-Javadoc)
 	 * @see javafx.application.Application#start(javafx.stage.Stage)
 	 */
@@ -46,7 +45,6 @@ public class Main extends Application implements Initializable{
 		primaryStage.show();
 		
 	}
-	
 	/**
 	 * creates the scene for the main page
 	 * @return scene of the main page
@@ -59,7 +57,6 @@ public class Main extends Application implements Initializable{
 		scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 		return scene;
 	}
-	
 	/**
 	 * combobox1, and combobo2 of type combobox for input from user
 	 */
@@ -79,13 +76,22 @@ public class Main extends Application implements Initializable{
 	private Button b2;
 	
 	/**
+	 * button for undo
+	 */
+	@FXML
+	private Button b3;
+	
+	/**
 	 * list to store values to select number of players
 	 */
 	ObservableList<String> list = FXCollections.observableArrayList("2 Player", "3 Player", "4 Player", "5 Player", "6 Player", "7 Player", "8 Player");
+	
 	/**
 	 * stores values to select the grid size
 	 */
+
 	ObservableList<String> list2 = FXCollections.observableArrayList("9 x 6", "15 x 10");
+	
 	
 	/* (non-Javadoc)
 	 * @see javafx.fxml.Initializable#initialize(java.net.URL, java.util.ResourceBundle)
@@ -96,18 +102,33 @@ public class Main extends Application implements Initializable{
 		combobox.setItems(list);
 		combobox2.setItems(list2);
 		
-		Color c = Color.WHITE;
+		//Color c = Color.WHITE;
 		SettingPage.playerColor.add(Color.RED);
-		SettingPage.playerColor.add(Color.BLUE);
 		SettingPage.playerColor.add(Color.GREEN);
+		SettingPage.playerColor.add(Color.BLUE);
 		SettingPage.playerColor.add(Color.YELLOW);
-		SettingPage.playerColor.add(Color.ORANGE);
-		SettingPage.playerColor.add(Color.PINK);
 		SettingPage.playerColor.add(Color.PURPLE);
-		SettingPage.playerColor.add(Color.GREY);
+		SettingPage.playerColor.add(Color.TURQUOISE);
+		SettingPage.playerColor.add(Color.ORANGE);
+		SettingPage.playerColor.add(Color.WHITE);
 		
+		boolean show = true;
+		
+		File file = new File(".");
+		File files[] = file.listFiles();
+		for(File f : files){
+			if(f.getName().equals("out.txt") || f.getName().equals("out2.txt")){
+				b3.setDisable(false);
+				show = false;
+			}
+			if(show == true){
+				b3.setDisable(true);
+			}
+			
+		}
 	}
 
+	
 	/**
 	 * stores the number of players in the game
 	 */
@@ -117,6 +138,7 @@ public class Main extends Application implements Initializable{
 	 * stores gridsize 
 	 */
 	static String gridSize;
+	
 	
 	/**
 	 * event handler to store number of players 
@@ -146,7 +168,6 @@ public class Main extends Application implements Initializable{
 	 */
 	@FXML
 	private void handleButtonAction(ActionEvent event) throws IOException{
-		
 		Parent root;
 		root = FXMLLoader.load(getClass().getResource("Settings.fxml"));
  		Scene scene = new Scene(root);
@@ -154,7 +175,6 @@ public class Main extends Application implements Initializable{
 		newstage.setScene(scene);
 		newstage.show();
 	}
-	
 	
 	/**
 	 * event handler to load a new page
@@ -164,12 +184,27 @@ public class Main extends Application implements Initializable{
 	@FXML 
 	private void handleNewGame(ActionEvent event) throws IOException{
 		
-		Grid96 g = new Grid96();
+		Grid96 g= new Grid96();
 		Scene scene_grid= g.makeSceneGrid();
 		newstage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 		newstage.setScene(scene_grid);
 		newstage.show();
 	}
+	
+	/**
+	 * event handler to resume last scene
+	 * @param event
+	 * @throws IOException
+	 */
+	@FXML
+	private void handleResumeButton(ActionEvent event) throws IOException{
+		Grid96 g = new Grid96();
+		Scene scene_grid= g.resumeSceneGrid();
+		newstage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+		newstage.setScene(scene_grid);
+		newstage.show();
+	}
+	
 	
 	
 	/**
@@ -177,10 +212,9 @@ public class Main extends Application implements Initializable{
 	 * @param args array of string arguments
 	 */
 	public static void main(String[] args) {
-		
 		launch(args);
-		
 		//System.out.println(noOfPlayers.charAt(0));
 		
 	}
 }
+
