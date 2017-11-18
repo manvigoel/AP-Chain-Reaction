@@ -84,7 +84,6 @@ public class Main extends Application implements Initializable{
 	
 	@FXML
 	private void handleButtonAction(ActionEvent event) throws IOException{
-		
 		Parent root;
 		root = FXMLLoader.load(getClass().getResource("Settings.fxml"));
  		Scene scene = new Scene(root);

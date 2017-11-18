@@ -11,14 +11,26 @@ public class Player implements Serializable {
 	public transient Color color;
 	public String name;
 	public int noOfCells;
-	public String Colors;
+	public double r;
+	public double g;
+	public double b;
 
 	public Player(String name, Color color) {
 		this.name = name;
 		this.color = color;
 		this.noOfCells = 0;
+		r=color.getRed();
+		g=color.getGreen();
+		b=color.getBlue();
 	}
-
+	public void setInts() {
+		r=color.getRed();
+		g=color.getGreen();
+		b=color.getBlue();
+	}
+	public void setcol() {
+		color=new Color(r,g,b,1.0);
+	}
 	public Color getPlayerColor() {
 		return this.color;
 	}
@@ -29,6 +41,9 @@ public class Player implements Serializable {
 
 	public void setPlayerColor(Color color) {
 		this.color = color;
+		r=color.getRed();
+		g=color.getGreen();
+		b=color.getBlue();
 	}
 
 	public void setPlayerName(String name) {

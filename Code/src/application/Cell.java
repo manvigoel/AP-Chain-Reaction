@@ -92,7 +92,7 @@ public class Cell{
 		//branch.getChildren().add(r);
 	}
 public Cell(sCell sc){
-		
+		this.sc=sc;
 		if(Main.gridSize != null){
 			size = Main.gridSize;
 			if(size.equalsIgnoreCase("9 x 6")){
@@ -120,6 +120,9 @@ public Cell(sCell sc){
 		rot.getKeyFrames().add(startk);
 		rot.getKeyFrames().add(endk);
 		rot.playFromStart();
+		if(sc.owner!=null) {
+		sc.owner.setcol();
+		}
 		owner=sc.owner;
 		createballs();
 		orbNumber=sc.orbNumber;
@@ -241,6 +244,7 @@ public Cell(sCell sc){
 		}
 		if(orbNumber==0) {
 			Material kMaterial = new PhongMaterial();
+			//System.out.println(owner.color);
 			((PhongMaterial) kMaterial).setDiffuseColor(owner.color);
 			//((PhongMaterial) kMaterial).setDiffuseColor(Color.GREEN);
 			for(int i=0;i<balls.size();i++) {
@@ -250,15 +254,14 @@ public Cell(sCell sc){
 			balls.get(orbNumber).setLayoutY(0);
 		}
 		branch.getChildren().add(balls.get(orbNumber));
-		Material kMaterial = new PhongMaterial();
-		((PhongMaterial) kMaterial).setDiffuseColor(owner.color);
+		//Material kMaterial = new PhongMaterial();
+		//((PhongMaterial) kMaterial).setDiffuseColor(owner.color);
 		//((PhongMaterial) kMaterial).setDiffuseColor(Color.GREEN);
-		Sphere r = new Sphere(10);
-		r.setMaterial(kMaterial);
+		//Sphere r = new Sphere(10);
+		//r.setMaterial(kMaterial);
 		orbNumber++;
 		this.sc.orbNumber=this.orbNumber;
 	}
-	
 	
 	public void switcho(Player n) {
 		this.owner.subCell();
