@@ -103,7 +103,7 @@ public class Grid96 extends Application {
 	
 	public static void serialize() throws IOException {
 		ObjectOutputStream out = null;
-		ObjectOutputStream out2 = null;
+		//ObjectOutputStream out2 = null;
 		try {
 			out = new ObjectOutputStream(new FileOutputStream("out.txt"));
 			for(int i=0;i<rows;i++) {
@@ -113,13 +113,25 @@ public class Grid96 extends Application {
 				}
 				//System.out.println("");
 			}
+//			out2 = new ObjectOutputStream(new FileOutputStream("out2.txt"));
+//			System.out.println("ser "+players.size());
+//			for(int i=0;i<players.size();i++) {
+//				out2.writeObject(players.get(i));
+//			}
+		} finally {
+			out.close();
+			//out2.close();
+		}
+	}
+	public static void serialize2() throws IOException {
+		ObjectOutputStream out2 = null;
+		try {
 			out2 = new ObjectOutputStream(new FileOutputStream("out2.txt"));
-			System.out.println("ser "+players.size());
+			//System.out.println("ser "+players.size());
 			for(int i=0;i<players.size();i++) {
 				out2.writeObject(players.get(i));
 			}
 		} finally {
-			out.close();
 			out2.close();
 		}
 	}
@@ -272,7 +284,13 @@ public class Grid96 extends Application {
 				vis[i][j].setLayoutX(startx);
 				vis[i][j].setLayoutY(starty);
 				vis[i][j].addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {
-					
+					try {
+						serialize();
+						//System.out.println("serialised");
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 					if(current.getCells() != 0 || turncounter < noOfPlayers + 1) {
 					
 						if(array[I][J].owner == null || array[I][J].owner == current) {
@@ -316,7 +334,7 @@ public class Grid96 extends Application {
 							previous = current;
 							players.remove(0);
 							try {
-								serialize();
+								serialize2();
 								//System.out.println("serialised");
 							} catch (IOException e1) {
 								// TODO Auto-generated catch block
@@ -503,7 +521,13 @@ public class Grid96 extends Application {
 					if(current.getCells() != 0 || turncounter < noOfPlayers + 1) {
 					
 						if(array[I][J].owner == null || array[I][J].owner.name.equals(current.name)) {
-							
+							try {
+								serialize();
+								//System.out.println("serialised");
+							} catch (IOException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
 							//System.out.println(array[I][J].x+" "+array[I][J].y);
 							if(turncounter!=0) {
 								//System.out.println(current.name+" has no of cells= "+previous.getCells());
@@ -543,7 +567,7 @@ public class Grid96 extends Application {
 							previous = current;
 							players.remove(0);
 							try {
-								serialize();
+								serialize2();
 								//System.out.println("serialised");
 							} catch (IOException e1) {
 								// TODO Auto-generated catch block
